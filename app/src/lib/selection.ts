@@ -16,14 +16,14 @@ export interface Selection {
 
 /** Local Selection state for one grid; each grid calls it once, so Selections never leak across grids. */
 export function useSelection(photos: readonly PhotoCard[]): Selection {
-  const [selected, setSelectedIds] = useState<ReadonlySet<string>>(
+  const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(
     () => new Set()
   );
 
-  const setSelected = useCallback((id: string, isTicked: boolean) => {
+  const setSelected = useCallback((id: string, selected: boolean) => {
     setSelectedIds((current) => {
       const next = new Set(current);
-      if (isTicked) {
+      if (selected) {
         next.add(id);
       } else {
         next.delete(id);
@@ -37,11 +37,14 @@ export function useSelection(photos: readonly PhotoCard[]): Selection {
     [photos]
   );
   const selectNone = useCallback(() => setSelectedIds(new Set()), []);
-  const isSelected = useCallback((id: string) => selected.has(id), [selected]);
+  const isSelected = useCallback(
+    (id: string) => selectedIds.has(id),
+    [selectedIds]
+  );
 
   const ids = useMemo(
-    () => photos.map((photo) => photo.id).filter((id) => selected.has(id)),
-    [photos, selected]
+    () => photos.map((photo) => photo.id).filter((id) => selectedIds.has(id)),
+    [photos, selectedIds]
   );
 
   return { ids, isSelected, selectAll, selectNone, setSelected };

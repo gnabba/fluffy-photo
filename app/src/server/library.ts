@@ -105,12 +105,12 @@ export async function loadLibrary(dir: string): Promise<Library> {
     .map((entry) => entry.name)
     .sort();
 
-  const readPhotos = await Promise.all(
+  const loadedPhotos = await Promise.all(
     fileNames.map((fileName) => readPhoto(dir, fileName))
   );
-  const photos = readPhotos.filter((photo) => photo !== undefined);
+  const photos = loadedPhotos.filter((photo) => photo !== undefined);
   const photosWithoutSidecar = fileNames.filter(
-    (_, index) => readPhotos[index] === undefined
+    (_, index) => loadedPhotos[index] === undefined
   );
 
   const name = basename(dir);
