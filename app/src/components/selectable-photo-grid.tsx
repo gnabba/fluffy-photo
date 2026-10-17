@@ -73,39 +73,56 @@ export function SelectionToolbar({ selection }: { selection: Selection }) {
   );
 }
 
-export interface SelectablePhotoGridProps {
-  photos: PhotoCard[];
-  /** Defaults to a PhotoCardView with the checkbox as its action; override to add reasons or a dialog. */
-  renderCard?: (
-    photo: PhotoCard,
-    checkbox: ReactNode,
-    selection: Selection
-  ) => ReactNode;
+export interface SelectableCardSlots {
+  /** The card's Selection checkbox, meant for PhotoCardView's `action`. */
+  checkbox: ReactNode;
+  /** Opens the photo dialog, meant for PhotoCardView's `onOpen`. */
+  open: () => void;
 }
 
-/** A result grid with its own Selection and Export. */
+export interface SelectablePhotoGridProps {
+  photos: PhotoCard[];
+  /** Defaults to a PhotoCardView with the checkbox and the dialog; override to add reasons. */
+  renderCard?: (photo: PhotoCard, slots: SelectableCardSlots) => ReactNode;
+}
+
+/** A result grid with its own Selection and Export; the photo dialog shares the same Selection. */
 export function SelectablePhotoGrid({
   photos,
   renderCard,
 }: SelectablePhotoGridProps) {
   const selection = useSelection(photos);
   const renderSelectableCard = useCallback(
-    (photo: PhotoCard) => {
+    (photo: PhotoCard, open: () => void) => {
       const checkbox = (
         <SelectionCheckbox photo={photo} selection={selection} />
       );
       return renderCard ? (
-        renderCard(photo, checkbox, selection)
+        renderCard(photo, { checkbox, open })
       ) : (
-        <PhotoCardView action={checkbox} photo={photo} />
+        <PhotoCardView action={checkbox} onOpen={open} photo={photo} />
       );
     },
     [renderCard, selection]
   );
+  const dialogAction = useCallback(
+    (photo: PhotoCard) => (
+      <SelectionCheckbox
+        className="size-5"
+        photo={photo}
+        selection={selection}
+      />
+    ),
+    [selection]
+  );
   return (
     <div className="space-y-2">
       <SelectionToolbar selection={selection} />
-      <PhotoGrid photos={photos} renderCard={renderSelectableCard} />
+      <PhotoGrid
+        dialogAction={dialogAction}
+        photos={photos}
+        renderCard={renderSelectableCard}
+      />
     </div>
   );
 }

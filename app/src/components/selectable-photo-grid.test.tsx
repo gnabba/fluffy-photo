@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { SelectablePhotoGrid } from "#/components/selectable-photo-grid";
 import type { PhotoCard } from "#/lib/photo-card";
 
@@ -16,7 +16,10 @@ const FERRARI = photo("ferrari-lmcorsa");
 const PORSCHE = photo("porsche-gt3");
 const BMW = photo("bmw-wrt");
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
 
 const renderTwoGrids = () =>
   render(
@@ -109,6 +112,35 @@ describe("SelectablePhotoGrid", () => {
     await user.click(checkbox);
 
     expect(checkbox.getAttribute("aria-checked")).toBe("false");
+    expect(downloadOf("first")).toBeNull();
+  });
+
+  it("keeps the photo dialog's toggle in sync with the card's checkbox", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response("Photo not found", { status: 404 }))
+    );
+    const user = userEvent.setup();
+    renderTwoGrids();
+    const cardCheckbox = grid("first").getByRole("checkbox", {
+      name: "Select porsche-gt3.jpg",
+    });
+    await user.click(cardCheckbox);
+
+    await user.click(
+      grid("first").getByRole("button", { name: "porsche-gt3.jpg" })
+    );
+    const dialogCheckbox = within(screen.getByRole("dialog")).getByRole(
+      "checkbox",
+      { name: "Select porsche-gt3.jpg" }
+    );
+    expect(dialogCheckbox.getAttribute("aria-checked")).toBe("true");
+
+    await user.click(dialogCheckbox);
+
+    expect(dialogCheckbox.getAttribute("aria-checked")).toBe("false");
+    await user.keyboard("{Escape}");
+    expect(cardCheckbox.getAttribute("aria-checked")).toBe("false");
     expect(downloadOf("first")).toBeNull();
   });
 });
