@@ -1,0 +1,61 @@
+{
+  "file": "IMG_2882.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:39:11.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 98,
+    "shutter_s": 0.008,
+    "aperture": 9,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "86",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "rear"
+      ],
+      "team_name": null,
+      "class_label": "GT3",
+      "manufacturer_model": "Ferrari 488 GT3",
+      "car_type": "GT3",
+      "livery_colors": [
+        "black",
+        "orange"
+      ],
+      "livery_description": "The car has a predominantly black livery with prominent orange striping and accents.",
+      "sponsors": [
+        {
+          "name": "Kalmar",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "Goodyear",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "86",
+    "GT3",
+    "Kalmar",
+    "Goodyear"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A black and orange Ferrari 488 GT3, numbered 86, is driving on a race track. The car features 'Kalmar' and 'Goodyear' branding on its side. The background shows several white mobile homes behind a safety barrier."
+}

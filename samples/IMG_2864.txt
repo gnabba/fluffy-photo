@@ -1,0 +1,16 @@
+file: IMG_2864.jpg
+captured_at: 2025-08-23T06:36:31.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 98 | shutter_s: 1/160 | iso: 400
+car_numbers: 60
+classes: LM GT3
+cars: Porsche 911
+car_types: GT3
+sponsors: TOMASI; GOOD YEAR
+livery_colors: orange; black; white
+visible_text: 60 | LM GT3 | TOMASI | GOOD YEAR | MOTUL
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-60; gt3; lm-gt3; tomasi; good-year; orange; black; white; on_track
+
+description: A single orange and black Porsche 911 GT3 race car, numbered 60, is captured on a race track. The car features the sponsor name TOMASI and GOOD YEAR. The background shows blurred green and brown terrain behind a safety barrier.
+
+car_1: #60 (clear) | Porsche 911 | class LM GT3 | orange, black, white | The car features a predominantly orange and black livery with white accents. | sponsors: TOMASI, GOOD YEAR | number on: rear

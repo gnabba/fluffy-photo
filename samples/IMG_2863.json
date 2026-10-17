@@ -1,0 +1,61 @@
+{
+  "file": "IMG_2863.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:36:30.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 98,
+    "shutter_s": 0.00625,
+    "aperture": 10,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "60",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "bonnet"
+      ],
+      "team_name": null,
+      "class_label": null,
+      "manufacturer_model": "Porsche 911",
+      "car_type": "GT3",
+      "livery_colors": [
+        "orange",
+        "black",
+        "white"
+      ],
+      "livery_description": "The car features an orange and black livery with white accents.",
+      "sponsors": [
+        {
+          "name": "PORSCHE",
+          "evidence": "logo_recognized",
+          "location": "bonnet"
+        },
+        {
+          "name": "Pirelli",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "PORSCHE",
+    "60",
+    "Pirelli"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "overcast",
+    "people": "none"
+  },
+  "description": "A single orange and black Porsche 911 GT3, marked with the number 60, is driving on a race track. The background shows several parked recreational vehicles and tents. The scene is captured with a background blur."
+}

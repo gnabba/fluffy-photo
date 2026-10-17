@@ -1,0 +1,61 @@
+{
+  "file": "IMG_2859.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:18:06.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 280,
+    "shutter_s": 0.005,
+    "aperture": 9,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "68",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "side_panel"
+      ],
+      "team_name": "mono",
+      "class_label": "P3",
+      "manufacturer_model": "Ferrari",
+      "car_type": "prototype",
+      "livery_colors": [
+        "pink",
+        "black",
+        "yellow"
+      ],
+      "livery_description": "The car features a pink and black base with yellow accents and sponsor decals.",
+      "sponsors": [
+        {
+          "name": "mono",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "RaceLink",
+          "evidence": "text_readable",
+          "location": "windscreen"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "68",
+    "P3",
+    "mono"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A pink, black, and yellow prototype race car, numbered 68 and marked P3, is speeding on a race track. The car features the 'mono' branding on its side panel. The background shows a red and yellow safety barrier against a backdrop of trees."
+}

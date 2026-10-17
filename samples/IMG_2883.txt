@@ -1,0 +1,17 @@
+file: IMG_2883.jpg
+captured_at: 2025-08-23T06:39:11.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 98 | shutter_s: 1/125 | iso: 400
+car_numbers: 86
+teams: Kalmar
+classes: LM GT3
+cars: Ferrari 488 GT3
+car_types: GT3
+sponsors: Kalmar; Goodyear
+livery_colors: black; orange
+visible_text: 86 | LM GT3 | Kalmar | Goodyear
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-86; gt3; lm-gt3; kalmar; goodyear; black; orange; on_track
+
+description: A black and orange Ferrari 488 GT3, numbered 86, is driving on a race track. The car features 'Kalmar' and 'Goodyear' branding on its side panel. The background shows blurred guardrails and grassy embankments.
+
+car_1: #86 (clear) | Ferrari 488 GT3 | team Kalmar | class LM GT3 | black, orange | The car is predominantly black with prominent orange racing stripes and accents. | sponsors: Kalmar, Goodyear | number on: side_panel

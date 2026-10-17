@@ -1,0 +1,16 @@
+file: IMG_2871.jpg
+captured_at: 2025-08-23T06:37:00.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 98 | shutter_s: 1/100 | iso: 400
+car_numbers: 66
+classes: LM GT3
+cars: Ferrari
+car_types: GT3
+sponsors: GOOD YEAR; LM GT3
+livery_colors: yellow; red; black
+visible_text: 66 | LM GT3 | GOOD YEAR
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-66; gt3; lm-gt3; good-year; yellow; red; black; on_track
+
+description: A yellow and red Ferrari GT3 race car, numbered 66, is shown on a race track. The car features 'LM GT3' and 'GOOD YEAR' markings on its side panel. The background shows blurred green grass and track barriers.
+
+car_1: #66 (clear) | Ferrari | class LM GT3 | yellow, red, black | The car features a prominent yellow and red livery with black accents. | sponsors: GOOD YEAR, LM GT3 | number on: side_panel

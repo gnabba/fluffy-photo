@@ -1,0 +1,62 @@
+{
+  "file": "IMG_2888.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:39:58.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 98,
+    "shutter_s": 0.008,
+    "aperture": 11,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "57",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "side_panel"
+      ],
+      "team_name": "CAR GUY",
+      "class_label": "LM GT3",
+      "manufacturer_model": "Ferrari 488 GT3",
+      "car_type": "GT3",
+      "livery_colors": [
+        "yellow",
+        "black",
+        "white"
+      ],
+      "livery_description": "The car features a bright yellow and black livery with white accents.",
+      "sponsors": [
+        {
+          "name": "CAR GUY",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "GOOD YEAR",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "LM GT3",
+    "57",
+    "CAR GUY",
+    "GOOD YEAR"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A yellow and black Ferrari 488 GT3, numbered 57, is shown driving on a race track. The car features the 'CAR GUY' and 'GOOD YEAR' sponsors. The background shows several white mobile homes behind a guardrail."
+}
