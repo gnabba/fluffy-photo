@@ -1,0 +1,18 @@
+{
+  "name": "race-photo-search",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hybrid keyword and vector search over race car photo Sidecars with LanceDB",
+  "type": "module",
+  "scripts": {
+    "build-index": "node build-index.mjs",
+    "search": "node search.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@lancedb/lancedb": "^0.40.0"
+  }
+}

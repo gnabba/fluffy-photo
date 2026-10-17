@@ -2,14 +2,14 @@
 
 Goal: extract searchable metadata from race car photos (race numbers, sponsors, livery, class, scene) into one `.txt` file per photo, so the photos can later be searched with a small LLM or a vector database.
 
-Status: **working prototype**. Extraction works end to end on a handful of test photos; search/indexing is not built yet.
+Status: **working prototype**. Extraction works end to end on a handful of test photos; search returns Candidates from a local LanceDB index, but its quality is not measured yet.
 
 ## Decisions so far
 
 1. **Open source only, cross-platform.** The stack must run on Linux and Windows as well as macOS, so macOS-only tools (Apple Vision OCR, MLX) were dropped.
 2. **One model does all the visual work: Gemma 4 E4B** (Apache-2.0), run locally with [Ollama](https://ollama.com/library/gemma4) as `gemma4:e4b`. There is no separate OCR or logo detector for now.
 3. **Node.js** for the tooling.
-4. **Planned search stack** (not implemented): LanceDB with hybrid search (BM25 on the `.txt` + vectors from `nomic-embed-text` on Ollama).
+4. **Search stack**: LanceDB with hybrid search (BM25 on the `.txt` + vectors from `nomic-embed-text` on Ollama), with exact race number matches ranked first. Searches are in English.
 
 The research behind these choices, with sources, is in [`docs/research/race-car-photo-metadata-extraction.md`](docs/research/race-car-photo-metadata-extraction.md).
 
@@ -22,6 +22,7 @@ The research behind these choices, with sources, is in [`docs/research/race-car-
 | `extractor/extract.mjs` | Reads EXIF, asks Gemma for structured JSON, checks race numbers, writes `.txt` + `.json` sidecars |
 | `extractor/prompt.md` | System prompt sent to the model |
 | `extractor/schema.json` | JSON schema enforced through Ollama's `format` parameter |
+| `search/` | Indexing and search over the `.txt` sidecars ([usage](search/README.md)) |
 | `samples/` | Test photos from Wikimedia Commons and the sidecars generated for them |
 
 ## How extraction works
@@ -73,7 +74,7 @@ The race numbers match the Commons file titles; the WRT and Ferrari photos were 
 ## Next steps (not started)
 
 1. Label 50–100 real photos by hand and measure accuracy per field.
-2. Build the LanceDB index and a search command over the `.txt` sidecars.
+2. Write 10–20 test Searches with the Photos each should return, and measure how many land in the top Candidates.
 3. Only if the measurements show a gap: add an OCR cross-check for numbers (PaddleOCR/EasyOCR) or logo matching (SigLIP 2), as described in the research notes.
 
 ## Sample photo credits
