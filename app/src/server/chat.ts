@@ -6,6 +6,7 @@ import {
   streamText,
   tool,
   type UIMessage,
+  type UIMessageChunk,
 } from "ai";
 import { z } from "zod";
 import type { Match, PhotoCard } from "#/lib/photo-card";
@@ -41,11 +42,22 @@ const escapeMarkup = (text: string) =>
 
 export type ReadLibrary = () => Promise<Library>;
 
+export const NO_MATCH_REPLY = "I couldn't find any photos";
+
+/** What one chat turn's tools did so far. */
+interface SearchTurn {
+  matchesShown: boolean;
+  searched: boolean;
+}
+
 const sidecarBlock = (id: string, sidecarText: string) =>
   `<sidecar id="${escapeMarkup(id)}" untrusted="true">\n${escapeMarkup(sidecarText)}\n</sidecar>`;
 
 /** The chat tools of one Search request; the Library is re-read on every searchPhotos call. */
-export function createSearchTools(readLibrary: ReadLibrary) {
+export function createSearchTools(
+  readLibrary: ReadLibrary,
+  turn: SearchTurn = { matchesShown: false, searched: false }
+) {
   const candidates = new Map<string, PhotoCard>();
   // Sidecars go to the model only, so they stay on the server instead of in the tool output the client receives.
   const sidecarTexts = new Map<string, string>();
@@ -62,6 +74,7 @@ export function createSearchTools(readLibrary: ReadLibrary) {
       }),
       execute: async ({ request }): Promise<string[]> => {
         const found = searchPhotos((await readLibrary()).photos, request);
+        turn.searched = true;
         for (const { score: _score, sidecarText, ...card } of found) {
           candidates.set(card.id, card);
           sidecarTexts.set(card.id, sidecarText);
@@ -113,6 +126,7 @@ export function createSearchTools(readLibrary: ReadLibrary) {
             });
           }
         }
+        turn.matchesShown ||= shown.size > 0;
         return [...shown.values()];
       },
       toModelOutput: ({ input, output }) => {
@@ -146,13 +160,53 @@ export interface StreamChatOptions {
   readLibrary: ReadLibrary;
 }
 
+const noMatchReply = (): UIMessageChunk[] => [
+  { type: "text-start", id: "no-match" },
+  { type: "text-delta", id: "no-match", delta: NO_MATCH_REPLY },
+  { type: "text-end", id: "no-match" },
+];
+
+/**
+ * Holds the model's text back until the turn shows a Match. A turn that searched but showed none
+ * gets only the no-match reply, whatever the model wrote; a turn without a Search (a refusal) keeps its text.
+ */
+function enforceNoMatchReply(turn: SearchTurn) {
+  let held: UIMessageChunk[] | undefined = [];
+  const release = (
+    controller: TransformStreamDefaultController<UIMessageChunk>
+  ) => {
+    if (!held) {
+      return;
+    }
+    const chunks = turn.searched && !turn.matchesShown ? noMatchReply() : held;
+    held = undefined;
+    for (const chunk of chunks) {
+      controller.enqueue(chunk);
+    }
+  };
+  return new TransformStream<UIMessageChunk, UIMessageChunk>({
+    transform(chunk, controller) {
+      if (held && !turn.matchesShown && chunk.type.startsWith("text-")) {
+        held.push(chunk);
+        return;
+      }
+      if (turn.matchesShown || chunk.type === "finish") {
+        release(controller);
+      }
+      controller.enqueue(chunk);
+    },
+    flush: release,
+  });
+}
+
 /** Runs one chat turn and returns the UI message stream for useChat. */
 export async function streamChat({
   model,
   messages,
   readLibrary,
 }: StreamChatOptions) {
-  const tools = createSearchTools(readLibrary);
+  const turn: SearchTurn = { matchesShown: false, searched: false };
+  const tools = createSearchTools(readLibrary, turn);
   const result = streamText({
     model,
     instructions: SYSTEM_PROMPT,
@@ -160,9 +214,11 @@ export async function streamChat({
     tools,
     stopWhen: stepCountIs(4),
   });
-  return result.toUIMessageStream<PhotoUIMessage>({
-    sendReasoning: true,
-    onError: (error) =>
-      error instanceof Error ? error.message : String(error),
-  });
+  return result
+    .toUIMessageStream<PhotoUIMessage>({
+      sendReasoning: true,
+      onError: (error) =>
+        error instanceof Error ? error.message : String(error),
+    })
+    .pipeThrough(enforceNoMatchReply(turn));
 }

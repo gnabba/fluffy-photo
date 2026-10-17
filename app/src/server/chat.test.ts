@@ -20,9 +20,22 @@ const finish = (unified: "stop" | "tool-calls") =>
     usage,
   }) as const;
 
-const toolCall = (toolCallId: string, toolName: string, input: unknown) => ({
+const textChunks = (text: string) =>
+  [
+    { type: "text-start", id: "t" },
+    { type: "text-delta", id: "t", delta: text },
+    { type: "text-end", id: "t" },
+  ] as const;
+
+const toolCall = (
+  toolCallId: string,
+  toolName: string,
+  input: unknown,
+  leadingText?: string
+) => ({
   stream: simulateReadableStream({
     chunks: [
+      ...(leadingText === undefined ? [] : textChunks(leadingText)),
       {
         type: "tool-call" as const,
         toolCallId,
@@ -334,6 +347,81 @@ describe("streamChat", () => {
     expect(
       shown.state === "output-available" && shown.output.map((m) => m.reason)
     ).toEqual(["#98"]);
+  });
+
+  describe("when the turn shows no Match", () => {
+    const textOf = (message: PhotoUIMessage) =>
+      message.parts.flatMap((p) => (p.type === "text" ? [p.text] : []));
+
+    const chat = (
+      doStream: ConstructorParameters<typeof MockLanguageModelV4>[0]
+    ) =>
+      lastMessage(
+        streamChat({
+          model: new MockLanguageModelV4(doStream),
+          messages: [userMessage("pink Lamborghini")],
+          readLibrary: () => loadLibrary(samplesDir),
+        })
+      );
+
+    it("replies only with the no-match sentence when the model never shows Photos", async () => {
+      const message = await chat({
+        doStream: [
+          toolCall(
+            "call-1",
+            "searchPhotos",
+            { request: "bmw" },
+            "Let me look. "
+          ),
+          reply("Here are some great BMWs: bmw-rowe.jpg"),
+        ],
+      });
+
+      expect(textOf(message)).toEqual(["I couldn't find any photos"]);
+    });
+
+    it("replies only with the no-match sentence when showPhotos kept nothing", async () => {
+      const message = await chat({
+        doStream: [
+          toolCall("call-1", "searchPhotos", { request: "bmw" }),
+          toolCall("call-2", "showPhotos", {
+            matches: [{ id: "porsche-pfaff", reason: "#911" }],
+          }),
+          reply("Here they are."),
+        ],
+      });
+
+      expect(textOf(message)).toEqual(["I couldn't find any photos"]);
+    });
+
+    it("keeps the model's reply once Matches are shown", async () => {
+      const message = await chat({
+        doStream: [
+          toolCall(
+            "call-1",
+            "searchPhotos",
+            { request: "bmw" },
+            "Let me look. "
+          ),
+          toolCall("call-2", "showPhotos", {
+            matches: [{ id: "bmw-rowe", reason: "#98" }],
+          }),
+          reply("Here they are."),
+        ],
+      });
+
+      expect(textOf(message)).toEqual(["Let me look. ", "Here they are."]);
+    });
+
+    it("keeps a refusal that needed no Search", async () => {
+      const message = await chat({
+        doStream: [reply("I can only search your race car Photos.")],
+      });
+
+      expect(textOf(message)).toEqual([
+        "I can only search your race car Photos.",
+      ]);
+    });
   });
 
   it("truncates long reasons", async () => {
