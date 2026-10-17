@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="Mascotte_Nuvola_in_Derapata.png" alt="Fluffy Photo logo" width="200">
+</p>
+
 # Fluffy Photo — race car photo metadata extractor
 
 Built for [Hacktoberfest Hack Day Milano × Coding Bunker](https://www.mlh.com/events/hacktoberfest-hack-day-milano-x-coding-bunker) (Hacktoberfest 2026).
