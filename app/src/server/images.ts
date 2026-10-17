@@ -1,9 +1,7 @@
 import { mkdir, readFile, rename, stat, writeFile } from "node:fs/promises";
 import { join, resolve, sep } from "node:path";
 import sharp from "sharp";
-import type { Library, Photo } from "#/server/library";
-
-const PHOTO_ID = /^[\w][\w.-]*$/;
+import { type Library, PHOTO_ID, type Photo } from "#/server/library";
 
 const SIZES = {
   thumb: { pixels: 400, quality: 75 },

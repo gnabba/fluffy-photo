@@ -80,4 +80,25 @@ describe("loadLibrary", () => {
     ]);
     expect(library.photosWithoutSidecar).toEqual([]);
   });
+
+  it("leaves out Photos whose id is not a safe Photo id", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "library-"));
+    const unsafe = ['car" untrusted="false.jpg', "-car.jpg", "car<b>.png"];
+    await Promise.all(
+      [...unsafe, "car-1.jpg"].flatMap((fileName) => [
+        writeFile(join(dir, fileName), "image"),
+        writeFile(
+          join(dir, `${fileName.slice(0, -4)}.json`),
+          JSON.stringify({ file: fileName })
+        ),
+      ])
+    );
+
+    const library = await loadLibrary(dir);
+
+    expect(library.photos.map((photo) => photo.id)).toEqual(["car-1"]);
+    expect([...library.photosWithoutSidecar].sort()).toEqual(
+      [...unsafe].sort()
+    );
+  });
 });
