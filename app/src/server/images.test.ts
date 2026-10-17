@@ -46,6 +46,25 @@ describe("renderPhoto", () => {
     expect(second?.data.equals(first?.data ?? Buffer.alloc(0))).toBe(true);
   });
 
+  it("makes a large webp of at most 1600 px, cached apart from the thumbnail", async () => {
+    const big = await sharp({
+      create: { width: 4000, height: 2000, channels: 3, background: "blue" },
+    })
+      .jpeg()
+      .toBuffer();
+    await writeFile(join(libraryDir, "car.jpg"), big);
+    const library = await loadLibrary(libraryDir);
+
+    await renderPhoto(library, "car", "thumb", cacheDir);
+    const large = await renderPhoto(library, "car", "large", cacheDir);
+
+    expect(large?.fromCache).toBe(false);
+    const meta = await sharp(large?.data).metadata();
+    expect(meta.format).toBe("webp");
+    expect(meta.width).toBe(1600);
+    expect(meta.height).toBe(800);
+  });
+
   it("refuses unknown ids, Photos without a Sidecar and paths outside the Library", async () => {
     expect(await render("nope")).toBeUndefined();
     expect(await render("secret")).toBeUndefined();

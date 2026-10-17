@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiPhotosIdDetailsRouteImport } from './routes/api/photos/$id.details'
+import { Route as ApiPhotosIdLargeRouteImport } from './routes/api/photos/$id.large'
 import { Route as ApiPhotosIdThumbRouteImport } from './routes/api/photos/$id.thumb'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +25,16 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPhotosIdDetailsRoute = ApiPhotosIdDetailsRouteImport.update({
+  id: '/api/photos/$id/details',
+  path: '/api/photos/$id/details',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPhotosIdLargeRoute = ApiPhotosIdLargeRouteImport.update({
+  id: '/api/photos/$id/large',
+  path: '/api/photos/$id/large',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPhotosIdThumbRoute = ApiPhotosIdThumbRouteImport.update({
   id: '/api/photos/$id/thumb',
   path: '/api/photos/$id/thumb',
@@ -32,30 +44,54 @@ const ApiPhotosIdThumbRoute = ApiPhotosIdThumbRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/photos/$id/details': typeof ApiPhotosIdDetailsRoute
+  '/api/photos/$id/large': typeof ApiPhotosIdLargeRoute
   '/api/photos/$id/thumb': typeof ApiPhotosIdThumbRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/photos/$id/details': typeof ApiPhotosIdDetailsRoute
+  '/api/photos/$id/large': typeof ApiPhotosIdLargeRoute
   '/api/photos/$id/thumb': typeof ApiPhotosIdThumbRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/photos/$id/details': typeof ApiPhotosIdDetailsRoute
+  '/api/photos/$id/large': typeof ApiPhotosIdLargeRoute
   '/api/photos/$id/thumb': typeof ApiPhotosIdThumbRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/chat' | '/api/photos/$id/thumb'
+  fullPaths:
+    | '/'
+    | '/api/chat'
+    | '/api/photos/$id/details'
+    | '/api/photos/$id/large'
+    | '/api/photos/$id/thumb'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/chat' | '/api/photos/$id/thumb'
-  id: '__root__' | '/' | '/api/chat' | '/api/photos/$id/thumb'
+  to:
+    | '/'
+    | '/api/chat'
+    | '/api/photos/$id/details'
+    | '/api/photos/$id/large'
+    | '/api/photos/$id/thumb'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/chat'
+    | '/api/photos/$id/details'
+    | '/api/photos/$id/large'
+    | '/api/photos/$id/thumb'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPhotosIdDetailsRoute: typeof ApiPhotosIdDetailsRoute
+  ApiPhotosIdLargeRoute: typeof ApiPhotosIdLargeRoute
   ApiPhotosIdThumbRoute: typeof ApiPhotosIdThumbRoute
 }
 
@@ -75,6 +111,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/photos/$id/details': {
+      id: '/api/photos/$id/details'
+      path: '/api/photos/$id/details'
+      fullPath: '/api/photos/$id/details'
+      preLoaderRoute: typeof ApiPhotosIdDetailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/photos/$id/large': {
+      id: '/api/photos/$id/large'
+      path: '/api/photos/$id/large'
+      fullPath: '/api/photos/$id/large'
+      preLoaderRoute: typeof ApiPhotosIdLargeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/photos/$id/thumb': {
       id: '/api/photos/$id/thumb'
       path: '/api/photos/$id/thumb'
@@ -88,6 +138,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPhotosIdDetailsRoute: ApiPhotosIdDetailsRoute,
+  ApiPhotosIdLargeRoute: ApiPhotosIdLargeRoute,
   ApiPhotosIdThumbRoute: ApiPhotosIdThumbRoute,
 }
 export const routeTree = rootRouteImport
