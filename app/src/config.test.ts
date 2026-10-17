@@ -8,7 +8,7 @@ describe("readConfig", () => {
 
     expect(config.libraryDir).toBe(resolve(process.cwd(), "../samples"));
     expect(config.llmBaseUrl).toBe("http://localhost:8080/v1");
-    expect(config.llmModel).toBe("qwen3");
+    expect(config.llmModel).toBe("unsloth/Qwen3.8-Flash-Next-GGUF:UD-Q4_K_XL");
     expect(config.llmApiKey).toBeUndefined();
   });
 
@@ -31,7 +31,7 @@ describe("readConfig", () => {
   it("treats empty env vars as unset", () => {
     const config = readConfig({ LLM_MODEL: "", LLM_API_KEY: "" });
 
-    expect(config.llmModel).toBe("qwen3");
+    expect(config.llmModel).toBe("unsloth/Qwen3.8-Flash-Next-GGUF:UD-Q4_K_XL");
     expect(config.llmApiKey).toBeUndefined();
   });
 });
