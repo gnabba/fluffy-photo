@@ -9,7 +9,7 @@ import {
   ReasoningTrigger,
 } from "#/components/ai-elements/reasoning";
 import { Shimmer } from "#/components/ai-elements/shimmer";
-import { PhotoGrid } from "#/components/photo-grid";
+import { SelectablePhotoGrid } from "#/components/selectable-photo-grid";
 import type { PhotoUIMessage } from "#/server/chat";
 
 type Part = PhotoUIMessage["parts"][number];
@@ -21,7 +21,9 @@ function SearchPhotosPart({
 }) {
   switch (part.state) {
     case "output-available":
-      return part.output.length > 0 ? <PhotoGrid photos={part.output} /> : null;
+      return part.output.length > 0 ? (
+        <SelectablePhotoGrid photos={part.output} />
+      ) : null;
     case "output-error":
       return null;
     default:
