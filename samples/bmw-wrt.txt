@@ -1,0 +1,15 @@
+file: bmw-wrt.jpg
+car_numbers: 31
+teams: M Motorsport
+classes: LM GT3
+cars: BMW M4
+car_types: GT3
+sponsors: paradine; M Motorsport; PERTAMAX; DHL; Turbo; Halo; Fastron; Goodyear; Snap-on
+livery_colors: white; red; black
+visible_text: M Motorsport | paradine | LM GT3 | 31 | PERTAMAX | DHL | TURBO | Halo | Fastron | Goodyear | Snap-on | WRT
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-31; gt3; lm-gt3; m-motorsport; paradine; pertamax; dhl; turbo; halo; fastron; goodyear; snap-on; white; red; black; on_track
+
+description: A red and white BMW M4 GT3 race car, number 31, is shown on a race track. The car features sponsors such as paradine, DHL, and PERTAMAX. The setting is on track during the day.
+
+car_1: #31 (clear) | BMW M4 | team M Motorsport | class LM GT3 | white, red, black | The car features a white and red livery with black accents. | sponsors: paradine, M Motorsport, PERTAMAX, DHL, Turbo, Halo, Fastron, Goodyear, Snap-on | number on: side_panel

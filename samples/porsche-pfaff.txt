@@ -1,0 +1,16 @@
+file: porsche-pfaff.jpg
+car_numbers: 9
+teams: HAGERTY
+classes: GTD
+cars: Porsche 911; Porsche
+car_types: GT3; GT
+sponsors: MOTUL; HAGERTY; KW; IMSA; PFAFF; MICHELIN
+livery_colors: red; black; white; green
+visible_text: PORSCHE | MOTUL | 9 | HAGERTY | GTD | KW | IMSA | PFAFF | MICHELIN | ARTURO HURTADO | LEXUS
+scene: display; front_view; motion_blur: none; daylight; One person is visible in the background near the left side of the frame.
+keywords: car-9; gt3; gt; gtd; hagerty; motul; kw; imsa; pfaff; michelin; red; black; white; green; display
+
+description: A red and black checkered Porsche race car, numbered 9, is displayed indoors. The car features sponsors like MOTUL and HAGERTY and is marked GTD. Another white and black race car is partially visible to the left. The setting appears to be a paddock or display area.
+
+car_1: #9 (clear) | Porsche 911 | team HAGERTY | class GTD | red, black, white, green | The car features a prominent red and black checkered pattern across the front and sides, with green accents on the roof and around the number. | sponsors: MOTUL, HAGERTY, KW, IMSA, PFAFF, MICHELIN | number on: bonnet
+car_2: #? (not_read) | Porsche | white, black | A white and black race car is partially visible to the left of the main subject.

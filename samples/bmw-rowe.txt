@@ -1,0 +1,13 @@
+file: bmw-rowe.jpg
+car_numbers: 98
+cars: BMW M4
+car_types: GT3
+sponsors: ROWE MOTOR OIL; aws; PIRELLI; M Motorsport; Akrapovic
+livery_colors: white; yellow; black; grey
+visible_text: aws | ROWE | MOTOR OIL | 98 | PIRELLI | M Motorsport | Akrapovic | #FANATECGT
+scene: on_track; side; motion_blur: background_only; daylight; none
+keywords: car-98; gt3; rowe-motor-oil; aws; pirelli; m-motorsport; akrapovic; white; yellow; black; grey; on_track
+
+description: A white, yellow, and grey race car, number 98, is speeding on a track. The car features prominent 'ROWE MOTOR OIL' and 'aws' branding. The background shows blurred green grass and a white barrier.
+
+car_1: #98 (clear) | BMW M4 | white, yellow, black, grey | The car features a white and yellow base with large black and grey graphics, prominently displaying the 'ROWE MOTOR OIL' branding. | sponsors: ROWE MOTOR OIL, aws, PIRELLI, M Motorsport, Akrapovic | number on: side_panel

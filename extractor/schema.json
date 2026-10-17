@@ -1,0 +1,155 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cars",
+    "series_or_event",
+    "visible_text",
+    "scene",
+    "description"
+  ],
+  "properties": {
+    "cars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "car_number",
+          "car_number_legible",
+          "car_number_location",
+          "team_name",
+          "class_label",
+          "manufacturer_model",
+          "car_type",
+          "livery_colors",
+          "livery_description",
+          "sponsors"
+        ],
+        "properties": {
+          "car_number": {
+            "type": ["string", "null"],
+            "description": "Race number exactly as painted; null if not clearly readable"
+          },
+          "car_number_legible": {
+            "type": "string",
+            "enum": ["clear", "partial", "not_visible"]
+          },
+          "car_number_location": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "door",
+                "bonnet",
+                "roof",
+                "windscreen",
+                "rear",
+                "nose",
+                "side_panel",
+                "other"
+              ]
+            }
+          },
+          "team_name": {
+            "type": ["string", "null"],
+            "description": "Only if written on the car"
+          },
+          "class_label": {
+            "type": ["string", "null"],
+            "description": "Class marking on the car, e.g. PRO-AM, LM GT3, GTD"
+          },
+          "manufacturer_model": {
+            "type": ["string", "null"],
+            "description": "e.g. Porsche 911 GT3 R"
+          },
+          "car_type": {
+            "type": ["string", "null"],
+            "description": "e.g. GT3, prototype, single-seater, touring car, rally car, kart, stock car"
+          },
+          "livery_colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Dominant colours, most prominent first"
+          },
+          "livery_description": {
+            "type": "string"
+          },
+          "sponsors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "evidence", "location"],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string",
+                  "enum": ["text_readable", "logo_recognized", "uncertain"]
+                },
+                "location": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "series_or_event": {
+      "type": ["string", "null"]
+    },
+    "visible_text": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "setting",
+        "shot_type",
+        "motion_blur",
+        "weather_light",
+        "people"
+      ],
+      "properties": {
+        "setting": {
+          "type": "string",
+          "enum": [
+            "on_track",
+            "pit_lane",
+            "garage",
+            "paddock",
+            "grid",
+            "podium",
+            "display",
+            "other"
+          ]
+        },
+        "shot_type": {
+          "type": "string"
+        },
+        "motion_blur": {
+          "type": "string",
+          "enum": ["none", "background_only", "subject"]
+        },
+        "weather_light": {
+          "type": "string"
+        },
+        "people": {
+          "type": "string"
+        }
+      }
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+file: ferrari-lmcorsa.jpg
+car_numbers: 60
+teams: CORNES RACING
+classes: PRO-AM
+cars: Ferrari
+car_types: GT3
+sponsors: CORNES; PETRONAS; P ZERO; PIRELLI; TAGHI
+livery_colors: red; white; green
+visible_text: ferrari | CORNES RACING | 60 | PRO-AM | PETRONAS | P ZERO | PIRELLI | TAGHI | CORNES
+scene: display; front_three_quarter; motion_blur: none; daylight; several people are visible in the background
+keywords: car-60; gt3; pro-am; cornes-racing; cornes; petronas; p-zero; pirelli; taghi; red; white; green; display
+
+description: A red, white, and green Ferrari GT3 race car, numbered 60, is displayed on a wet surface. The car features 'CORNES RACING' and 'PETRONAS' branding. Several people are visible in the background near the display area.
+
+car_1: #60 (clear) | Ferrari | team CORNES RACING | class PRO-AM | red, white, green | The car features a red, white, and green livery with various sponsor decals. | sponsors: CORNES, PETRONAS, P ZERO, PIRELLI, TAGHI | number on: side_panel

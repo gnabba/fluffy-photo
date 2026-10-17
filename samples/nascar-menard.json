@@ -1,0 +1,118 @@
+{
+  "file": "nascar-menard.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2012-06-23T07:10:20.000Z",
+    "camera": "Canon EOS DIGITAL REBEL XS",
+    "lens": null,
+    "focal_mm": 18,
+    "shutter_s": 0.003125,
+    "aperture": 11,
+    "iso": 200,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "27",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "rear"
+      ],
+      "team_name": "MENARD",
+      "class_label": null,
+      "manufacturer_model": "Impala",
+      "car_type": "stock car",
+      "livery_colors": [
+        "yellow",
+        "green",
+        "orange",
+        "black"
+      ],
+      "livery_description": "The car is predominantly bright yellow and green, with large orange and black graphics on the side.",
+      "sponsors": [
+        {
+          "name": "MASTERCRAFT DOORS",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "GOOD YEAR",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "RICHMOND",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "MOOG CHASSIS PARTS",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "MAHLE",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "COMP CAMS",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "SUNOCO",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "Edelbrock",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "Goodyear Eagle",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "3M",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "ZECOL",
+    "Richmond",
+    "MASTERCRAFT DOORS",
+    "Turtle Wax",
+    "Serta",
+    "NIBCO",
+    "vertis",
+    "PAUL MENARD",
+    "27",
+    "IMPAALA",
+    "GOOD YEAR",
+    "RICHMOND",
+    "Goodyear Eagle",
+    "MOOG CHASSIS PARTS",
+    "MAHLE",
+    "COMP CAMS",
+    "SUNOCO",
+    "Edelbrock",
+    "NASCAR"
+  ],
+  "scene": {
+    "setting": "display",
+    "shot_type": "front_three_quarter",
+    "motion_blur": "none",
+    "weather_light": "daylight",
+    "people": "one person is visible inside the cockpit"
+  },
+  "description": "A bright yellow and green stock car, number 27, is displayed on grass. The car features multiple sponsor decals, including MASTERCRAFT DOORS and GOOD YEAR. The background shows a large trailer with various company logos."
+}

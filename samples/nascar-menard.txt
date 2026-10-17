@@ -1,0 +1,16 @@
+file: nascar-menard.jpg
+captured_at: 2012-06-23T07:10:20.000Z
+camera: Canon EOS DIGITAL REBEL XS | focal_mm: 18 | shutter_s: 1/320 | iso: 200
+car_numbers: 27
+teams: MENARD
+cars: Impala
+car_types: stock car
+sponsors: MASTERCRAFT DOORS; GOOD YEAR; RICHMOND; MOOG CHASSIS PARTS; MAHLE; COMP CAMS; SUNOCO; Edelbrock; Goodyear Eagle; 3M
+livery_colors: yellow; green; orange; black
+visible_text: ZECOL | Richmond | MASTERCRAFT DOORS | Turtle Wax | Serta | NIBCO | vertis | PAUL MENARD | 27 | IMPAALA | GOOD YEAR | RICHMOND | Goodyear Eagle | MOOG CHASSIS PARTS | MAHLE | COMP CAMS | SUNOCO | Edelbrock | NASCAR
+scene: display; front_three_quarter; motion_blur: none; daylight; one person is visible inside the cockpit
+keywords: car-27; stock-car; menard; mastercraft-doors; good-year; richmond; moog-chassis-parts; mahle; comp-cams; sunoco; edelbrock; goodyear-eagle; 3m; yellow; green; orange; black; display
+
+description: A bright yellow and green stock car, number 27, is displayed on grass. The car features multiple sponsor decals, including MASTERCRAFT DOORS and GOOD YEAR. The background shows a large trailer with various company logos.
+
+car_1: #27 (clear) | Impala | team MENARD | yellow, green, orange, black | The car is predominantly bright yellow and green, with large orange and black graphics on the side. | sponsors: MASTERCRAFT DOORS, GOOD YEAR, RICHMOND, MOOG CHASSIS PARTS, MAHLE, COMP CAMS, SUNOCO, Edelbrock, Goodyear Eagle, 3M | number on: rear

@@ -1,0 +1,82 @@
+{
+  "file": "bmw-rowe.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": null,
+    "camera": null,
+    "lens": null,
+    "focal_mm": null,
+    "shutter_s": null,
+    "aperture": null,
+    "iso": null,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "98",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "side_panel"
+      ],
+      "team_name": null,
+      "class_label": null,
+      "manufacturer_model": "BMW M4",
+      "car_type": "GT3",
+      "livery_colors": [
+        "white",
+        "yellow",
+        "black",
+        "grey"
+      ],
+      "livery_description": "The car features a white and yellow base with large black and grey graphics, prominently displaying the 'ROWE MOTOR OIL' branding.",
+      "sponsors": [
+        {
+          "name": "ROWE MOTOR OIL",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "aws",
+          "evidence": "logo_recognized",
+          "location": "rear"
+        },
+        {
+          "name": "PIRELLI",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "M Motorsport",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "Akrapovic",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "aws",
+    "ROWE",
+    "MOTOR OIL",
+    "98",
+    "PIRELLI",
+    "M Motorsport",
+    "Akrapovic",
+    "#FANATECGT"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "side",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A white, yellow, and grey race car, number 98, is speeding on a track. The car features prominent 'ROWE MOTOR OIL' and 'aws' branding. The background shows blurred green grass and a white barrier."
+}

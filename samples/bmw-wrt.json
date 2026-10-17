@@ -1,0 +1,105 @@
+{
+  "file": "bmw-wrt.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": null,
+    "camera": null,
+    "lens": null,
+    "focal_mm": null,
+    "shutter_s": null,
+    "aperture": null,
+    "iso": null,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "31",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "side_panel"
+      ],
+      "team_name": "M Motorsport",
+      "class_label": "LM GT3",
+      "manufacturer_model": "BMW M4",
+      "car_type": "GT3",
+      "livery_colors": [
+        "white",
+        "red",
+        "black"
+      ],
+      "livery_description": "The car features a white and red livery with black accents.",
+      "sponsors": [
+        {
+          "name": "paradine",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "M Motorsport",
+          "evidence": "text_readable",
+          "location": "windscreen"
+        },
+        {
+          "name": "PERTAMAX",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "DHL",
+          "evidence": "logo_recognized",
+          "location": "side_panel"
+        },
+        {
+          "name": "Turbo",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "Halo",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "Fastron",
+          "evidence": "text_readable",
+          "location": "nose"
+        },
+        {
+          "name": "Goodyear",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "Snap-on",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "M Motorsport",
+    "paradine",
+    "LM GT3",
+    "31",
+    "PERTAMAX",
+    "DHL",
+    "TURBO",
+    "Halo",
+    "Fastron",
+    "Goodyear",
+    "Snap-on",
+    "WRT"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A red and white BMW M4 GT3 race car, number 31, is shown on a race track. The car features sponsors such as paradine, DHL, and PERTAMAX. The setting is on track during the day."
+}

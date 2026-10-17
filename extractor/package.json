@@ -1,0 +1,19 @@
+{
+  "name": "race-photo-extractor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Extract searchable metadata from race car photos with Gemma 4 E4B on Ollama",
+  "type": "module",
+  "bin": {
+    "extract": "./extract.mjs"
+  },
+  "scripts": {
+    "extract": "node extract.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "exifr": "^7.1.3"
+  }
+}

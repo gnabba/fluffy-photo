@@ -1,0 +1,82 @@
+{
+  "file": "ferrari-lmcorsa.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": null,
+    "camera": null,
+    "lens": null,
+    "focal_mm": null,
+    "shutter_s": null,
+    "aperture": null,
+    "iso": null,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "60",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "side_panel"
+      ],
+      "team_name": "CORNES RACING",
+      "class_label": "PRO-AM",
+      "manufacturer_model": "Ferrari",
+      "car_type": "GT3",
+      "livery_colors": [
+        "red",
+        "white",
+        "green"
+      ],
+      "livery_description": "The car features a red, white, and green livery with various sponsor decals.",
+      "sponsors": [
+        {
+          "name": "CORNES",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "PETRONAS",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "P ZERO",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "PIRELLI",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        },
+        {
+          "name": "TAGHI",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "ferrari",
+    "CORNES RACING",
+    "60",
+    "PRO-AM",
+    "PETRONAS",
+    "P ZERO",
+    "PIRELLI",
+    "TAGHI",
+    "CORNES"
+  ],
+  "scene": {
+    "setting": "display",
+    "shot_type": "front_three_quarter",
+    "motion_blur": "none",
+    "weather_light": "daylight",
+    "people": "several people are visible in the background"
+  },
+  "description": "A red, white, and green Ferrari GT3 race car, numbered 60, is displayed on a wet surface. The car features 'CORNES RACING' and 'PETRONAS' branding. Several people are visible in the background near the display area."
+}

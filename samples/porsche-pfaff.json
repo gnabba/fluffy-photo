@@ -1,0 +1,107 @@
+{
+  "file": "porsche-pfaff.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": null,
+    "camera": null,
+    "lens": null,
+    "focal_mm": null,
+    "shutter_s": null,
+    "aperture": null,
+    "iso": null,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "9",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "bonnet"
+      ],
+      "team_name": "HAGERTY",
+      "class_label": "GTD",
+      "manufacturer_model": "Porsche 911",
+      "car_type": "GT3",
+      "livery_colors": [
+        "red",
+        "black",
+        "white",
+        "green"
+      ],
+      "livery_description": "The car features a prominent red and black checkered pattern across the front and sides, with green accents on the roof and around the number.",
+      "sponsors": [
+        {
+          "name": "MOTUL",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "HAGERTY",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "KW",
+          "evidence": "logo_recognized",
+          "location": "side_panel"
+        },
+        {
+          "name": "IMSA",
+          "evidence": "logo_recognized",
+          "location": "bonnet"
+        },
+        {
+          "name": "PFAFF",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "MICHELIN",
+          "evidence": "logo_recognized",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    },
+    {
+      "car_number": null,
+      "car_number_legible": "not_visible",
+      "car_number_location": [],
+      "team_name": null,
+      "class_label": null,
+      "manufacturer_model": "Porsche",
+      "car_type": "GT",
+      "livery_colors": [
+        "white",
+        "black"
+      ],
+      "livery_description": "A white and black race car is partially visible to the left of the main subject.",
+      "sponsors": [],
+      "car_number_candidate": null,
+      "car_number_check": "not_read"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "PORSCHE",
+    "MOTUL",
+    "9",
+    "HAGERTY",
+    "GTD",
+    "KW",
+    "IMSA",
+    "PFAFF",
+    "MICHELIN",
+    "ARTURO HURTADO",
+    "LEXUS"
+  ],
+  "scene": {
+    "setting": "display",
+    "shot_type": "front_view",
+    "motion_blur": "none",
+    "weather_light": "daylight",
+    "people": "One person is visible in the background near the left side of the frame."
+  },
+  "description": "A red and black checkered Porsche race car, numbered 9, is displayed indoors. The car features sponsors like MOTUL and HAGERTY and is marked GTD. Another white and black race car is partially visible to the left. The setting appears to be a paddock or display area."
+}
