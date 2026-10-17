@@ -79,7 +79,7 @@ export interface ChatMessageProps {
   message: PhotoUIMessage;
 }
 
-/** One chat message: text, collapsed reasoning and inline result grids. */
+/** One chat message: text, collapsed reasoning and inline Match grids. */
 export function ChatMessage({ isStreaming, message }: ChatMessageProps) {
   return (
     <Message from={message.role}>

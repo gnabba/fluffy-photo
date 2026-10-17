@@ -59,12 +59,12 @@ const reply = (text: string) => ({
 });
 
 function reviewingModel(
-  query: string,
+  request: string,
   matches: { id: string; reason: string }[]
 ) {
   return new MockLanguageModelV4({
     doStream: [
-      toolCall("call-1", "searchPhotos", { request: query }),
+      toolCall("call-1", "searchPhotos", { request }),
       toolCall("call-2", "showPhotos", { matches }),
       reply("Here they are."),
     ],
@@ -79,7 +79,7 @@ function showPart(message: PhotoUIMessage) {
   return part;
 }
 
-function searchingModel(query: string) {
+function searchingModel(request: string) {
   return new MockLanguageModelV4({
     doStream: [
       {
@@ -92,7 +92,7 @@ function searchingModel(query: string) {
               type: "tool-call",
               toolCallId: "call-1",
               toolName: "searchPhotos",
-              input: JSON.stringify({ request: query }),
+              input: JSON.stringify({ request }),
             },
             finish("tool-calls"),
           ],
@@ -254,11 +254,11 @@ describe("streamChat", () => {
 
   it("re-reads the Library on every Search", async () => {
     const dir = await mkdtemp(join(tmpdir(), "library-"));
-    const chat = (query: string) =>
+    const chat = (request: string) =>
       lastMessage(
         streamChat({
-          model: searchingModel(query),
-          messages: [userMessage(query)],
+          model: searchingModel(request),
+          messages: [userMessage(request)],
           readLibrary: () => loadLibrary(dir),
         })
       );

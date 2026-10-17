@@ -1,4 +1,4 @@
-/** What a result grid needs to render one Photo. Client-safe. */
+/** What a Match grid needs to render one Photo. Client-safe. */
 export interface PhotoCard {
   fileName: string;
   id: string;

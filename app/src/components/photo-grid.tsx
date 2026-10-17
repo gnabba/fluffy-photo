@@ -42,7 +42,7 @@ export interface PhotoCardViewProps {
   photo: PhotoCard;
 }
 
-/** One Photo of a result grid: thumbnail, race number badge, file name and copyable path. */
+/** One Photo of a Match grid: thumbnail, race number badge, file name and copyable path. */
 export function PhotoCardView({
   action,
   children,

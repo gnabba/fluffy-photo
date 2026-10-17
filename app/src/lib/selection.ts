@@ -5,7 +5,7 @@ import type { PhotoCard } from "#/lib/photo-card";
 export const exportUrl = (ids: readonly string[]) =>
   `/api/export?${new URLSearchParams(ids.map((id) => ["id", id]))}`;
 
-/** One result grid's Selection: the ticked Photo ids, in grid order. */
+/** One Match grid's Selection: the ticked Photo ids, in grid order. */
 export interface Selection {
   ids: string[];
   isSelected: (id: string) => boolean;

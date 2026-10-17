@@ -86,7 +86,7 @@ export interface SelectablePhotoGridProps {
   renderCard?: (photo: PhotoCard, slots: SelectableCardSlots) => ReactNode;
 }
 
-/** A result grid with its own Selection and Export; the photo dialog shares the same Selection. */
+/** A Match grid with its own Selection and Export; the photo dialog shares the same Selection. */
 export function SelectablePhotoGrid({
   photos,
   renderCard,
