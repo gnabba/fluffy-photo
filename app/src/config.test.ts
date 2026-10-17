@@ -10,6 +10,7 @@ describe("readConfig", () => {
     expect(config.llmBaseUrl).toBe("http://localhost:8080/v1");
     expect(config.llmModel).toBe("unsloth/Qwen3.8-Flash-Next-GGUF:UD-Q4_K_XL");
     expect(config.llmApiKey).toBeUndefined();
+    expect(config.ollamaUrl).toBe("http://localhost:11434");
   });
 
   it("lets env vars override every default", () => {
@@ -18,6 +19,7 @@ describe("readConfig", () => {
       LLM_BASE_URL: "http://gpu-box:9000/v1",
       LLM_MODEL: "qwen3-30b",
       LLM_API_KEY: "secret",
+      OLLAMA_URL: "http://gpu-box:11434",
     });
 
     expect(config).toEqual({
@@ -25,6 +27,7 @@ describe("readConfig", () => {
       llmBaseUrl: "http://gpu-box:9000/v1",
       llmModel: "qwen3-30b",
       llmApiKey: "secret",
+      ollamaUrl: "http://gpu-box:11434",
     });
   });
 

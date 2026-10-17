@@ -1,6 +1,9 @@
 allowBuilds:
   esbuild: true
   lightningcss: true
+  onnxruntime-node: false
+  protobufjs: false
+  sharp: false
 minimumReleaseAgeExclude:
   - '@tanstack/react-router@1.170.45'
   - '@tanstack/react-start-client@1.168.43'
