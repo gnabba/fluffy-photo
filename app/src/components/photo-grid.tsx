@@ -1,5 +1,6 @@
 import { CheckIcon, CopyIcon } from "lucide-react";
 import { type ReactNode, useCallback, useState } from "react";
+import { PhotoDialog } from "#/components/photo-dialog";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { type PhotoCard, thumbnailUrl } from "#/lib/photo-card";
@@ -101,13 +102,42 @@ export function PhotoCardView({
 
 export interface PhotoGridProps {
   className?: string;
+  /** Extra content in the photo dialog's header, e.g. the Selection toggle. */
+  dialogAction?: (photo: PhotoCard) => ReactNode;
   photos: PhotoCard[];
-  /** Defaults to a plain PhotoCardView; override to add reasons, selection or a dialog. */
-  renderCard?: (photo: PhotoCard) => ReactNode;
+  /** Defaults to a plain PhotoCardView; pass `open` as the card's `onOpen` to keep the photo dialog. */
+  renderCard?: (photo: PhotoCard, open: () => void) => ReactNode;
 }
 
-/** Responsive grid of Photos, keyed by Photo id. */
-export function PhotoGrid({ className, photos, renderCard }: PhotoGridProps) {
+interface GridCellProps {
+  onOpen: (id: string) => void;
+  photo: PhotoCard;
+  renderCard?: PhotoGridProps["renderCard"];
+}
+
+function GridCell({ onOpen, photo, renderCard }: GridCellProps) {
+  const open = useCallback(() => onOpen(photo.id), [onOpen, photo.id]);
+  return renderCard ? (
+    renderCard(photo, open)
+  ) : (
+    <PhotoCardView onOpen={open} photo={photo} />
+  );
+}
+
+/** Responsive grid of Photos, keyed by Photo id; clicking a card opens the photo dialog. */
+export function PhotoGrid({
+  className,
+  dialogAction,
+  photos,
+  renderCard,
+}: PhotoGridProps) {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const openPhoto = photos.find((photo) => photo.id === openId);
+  const onOpenChange = useCallback((open: boolean) => {
+    if (!open) {
+      setOpenId(null);
+    }
+  }, []);
   return (
     <div
       className={cn(
@@ -117,9 +147,17 @@ export function PhotoGrid({ className, photos, renderCard }: PhotoGridProps) {
     >
       {photos.map((photo) => (
         <div key={photo.id}>
-          {renderCard ? renderCard(photo) : <PhotoCardView photo={photo} />}
+          <GridCell onOpen={setOpenId} photo={photo} renderCard={renderCard} />
         </div>
       ))}
+      {openPhoto ? (
+        <PhotoDialog
+          action={dialogAction?.(openPhoto)}
+          onOpenChange={onOpenChange}
+          open
+          photo={openPhoto}
+        />
+      ) : null}
     </div>
   );
 }
