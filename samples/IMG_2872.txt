@@ -1,0 +1,17 @@
+file: IMG_2872.jpg
+captured_at: 2025-08-23T06:37:42.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 98 | shutter_s: 1/125 | iso: 400
+car_numbers: 35
+teams: ULTIMATE
+classes: P3
+cars: Prototype
+car_types: prototype
+sponsors: ULTIMATE; P3
+livery_colors: black; red; white
+visible_text: ULTIMATE | 35 | P3
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-35; prototype; p3; ultimate; black; red; white; on_track
+
+description: A black and red prototype race car, numbered 35, is speeding on a race track. The car features the 'ULTIMATE' branding and the 'P3' class label. The background shows blurred green grass and guardrails.
+
+car_1: #35 (clear) | Prototype | team ULTIMATE | class P3 | black, red, white | The car features a predominantly black and red livery with white accents. | sponsors: ULTIMATE, P3 | number on: side_panel

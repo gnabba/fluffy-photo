@@ -1,0 +1,16 @@
+file: IMG_2882.jpg
+captured_at: 2025-08-23T06:39:11.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 98 | shutter_s: 1/125 | iso: 400
+car_numbers: 86
+classes: GT3
+cars: Ferrari 488 GT3
+car_types: GT3
+sponsors: Kalmar; Goodyear
+livery_colors: black; orange
+visible_text: 86 | GT3 | Kalmar | Goodyear
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-86; gt3; kalmar; goodyear; black; orange; on_track
+
+description: A black and orange Ferrari 488 GT3, numbered 86, is driving on a race track. The car features 'Kalmar' and 'Goodyear' branding on its side. The background shows several white mobile homes behind a safety barrier.
+
+car_1: #86 (clear) | Ferrari 488 GT3 | class GT3 | black, orange | The car has a predominantly black livery with prominent orange striping and accents. | sponsors: Kalmar, Goodyear | number on: rear

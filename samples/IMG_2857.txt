@@ -1,0 +1,17 @@
+file: IMG_2857.jpg
+captured_at: 2025-08-23T06:17:55.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 280 | shutter_s: 1/200 | iso: 400
+car_numbers: 85
+teams: IRON DAMES
+classes: GT3
+cars: Ferrari
+car_types: GT3
+sponsors: IRON DAMES; Goodyear
+livery_colors: pink; white; black
+visible_text: 85 | GT3 | IRON DAMES | Goodyear
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-85; gt3; iron-dames; goodyear; pink; white; black; on_track
+
+description: A pink and white Ferrari GT3 race car, numbered 85, is shown on a race track. The car features the sponsor name 'IRON DAMES' on the bonnet. The background shows a red and yellow safety barrier.
+
+car_1: #85 (clear) | Ferrari | team IRON DAMES | class GT3 | pink, white, black | The car features a pink and white livery with black accents. | sponsors: IRON DAMES, Goodyear | number on: bonnet, side_panel

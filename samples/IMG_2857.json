@@ -1,0 +1,63 @@
+{
+  "file": "IMG_2857.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:17:55.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 280,
+    "shutter_s": 0.005,
+    "aperture": 10,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "85",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "bonnet",
+        "side_panel"
+      ],
+      "team_name": "IRON DAMES",
+      "class_label": "GT3",
+      "manufacturer_model": "Ferrari",
+      "car_type": "GT3",
+      "livery_colors": [
+        "pink",
+        "white",
+        "black"
+      ],
+      "livery_description": "The car features a pink and white livery with black accents.",
+      "sponsors": [
+        {
+          "name": "IRON DAMES",
+          "evidence": "text_readable",
+          "location": "bonnet"
+        },
+        {
+          "name": "Goodyear",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "85",
+    "GT3",
+    "IRON DAMES",
+    "Goodyear"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A pink and white Ferrari GT3 race car, numbered 85, is shown on a race track. The car features the sponsor name 'IRON DAMES' on the bonnet. The background shows a red and yellow safety barrier."
+}

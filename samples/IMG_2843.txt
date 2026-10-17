@@ -1,0 +1,15 @@
+file: IMG_2843.jpg
+captured_at: 2025-08-23T06:16:18.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 280 | shutter_s: 1/160 | iso: 400
+car_numbers: 51
+cars: Ferrari 458 Italia
+car_types: GT3
+sponsors: Michelin
+livery_colors: white; black; red
+visible_text: 51
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-51; gt3; michelin; white; black; red; on_track
+
+description: A race car, numbered 51, is visible on a race track. The car has a white, black, and red livery and features Michelin sponsorship. The background shows safety barriers and trees.
+
+car_1: #51 (clear) | Ferrari 458 Italia | white, black, red | The car features a white base with black and red graphics. | sponsors: Michelin | number on: side_panel

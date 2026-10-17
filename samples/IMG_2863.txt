@@ -1,0 +1,15 @@
+file: IMG_2863.jpg
+captured_at: 2025-08-23T06:36:30.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 98 | shutter_s: 1/160 | iso: 400
+car_numbers: 60
+cars: Porsche 911
+car_types: GT3
+sponsors: PORSCHE; Pirelli
+livery_colors: orange; black; white
+visible_text: PORSCHE | 60 | Pirelli
+scene: on_track; tracking; motion_blur: background_only; overcast; none
+keywords: car-60; gt3; porsche; pirelli; orange; black; white; on_track
+
+description: A single orange and black Porsche 911 GT3, marked with the number 60, is driving on a race track. The background shows several parked recreational vehicles and tents. The scene is captured with a background blur.
+
+car_1: #60 (clear) | Porsche 911 | orange, black, white | The car features an orange and black livery with white accents. | sponsors: PORSCHE, Pirelli | number on: bonnet
