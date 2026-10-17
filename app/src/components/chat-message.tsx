@@ -15,8 +15,8 @@ import {
   type SelectableCardSlots,
   SelectablePhotoGrid,
 } from "#/components/selectable-photo-grid";
-import type { PhotoCard } from "#/lib/photo-card";
-import type { Match, PhotoUIMessage } from "#/server/chat";
+import type { Match, PhotoCard } from "#/lib/photo-card";
+import type { PhotoUIMessage } from "#/server/chat";
 
 type Part = PhotoUIMessage["parts"][number];
 

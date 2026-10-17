@@ -24,7 +24,7 @@ const searched: Part = {
   type: "tool-searchPhotos",
   toolCallId: "call-1",
   state: "output-available",
-  input: { query: "98" },
+  input: { request: "98" },
   output: [
     { ...rowe, score: 10, sidecarText: "car_numbers: 98" },
     {
@@ -50,7 +50,7 @@ describe("ChatMessage", () => {
           type: "tool-showPhotos",
           toolCallId: "call-2",
           state: "output-available",
-          input: { ids: ["bmw-rowe"], reasons: ["#98, ROWE livery"] },
+          input: { matches: [{ id: "bmw-rowe", reason: "#98, ROWE livery" }] },
           output: [{ ...rowe, reason: "#98, ROWE livery, <b>on</b> track" }],
         },
       ])
@@ -70,7 +70,7 @@ describe("ChatMessage", () => {
           type: "tool-showPhotos",
           toolCallId: "call-2",
           state: "output-available",
-          input: { ids: ["bmw-rowe"], reasons: ["#98"] },
+          input: { matches: [{ id: "bmw-rowe", reason: "#98" }] },
           output: [{ ...rowe, reason: "#98" }],
         },
       ])
@@ -100,7 +100,7 @@ describe("ChatMessage", () => {
           type: "tool-showPhotos",
           toolCallId: "call-2",
           state: "output-error",
-          input: { ids: ["porsche-pfaff"], reasons: ["x"] },
+          input: { matches: [{ id: "porsche-pfaff", reason: "x" }] },
           errorText: "Not a Candidate of this Search: porsche-pfaff",
         },
       ])

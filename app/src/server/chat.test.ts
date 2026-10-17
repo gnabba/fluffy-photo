@@ -47,12 +47,12 @@ const reply = (text: string) => ({
 
 function reviewingModel(
   query: string,
-  shown: { ids: string[]; reasons: string[] }
+  matches: { id: string; reason: string }[]
 ) {
   return new MockLanguageModelV4({
     doStream: [
-      toolCall("call-1", "searchPhotos", { query }),
-      toolCall("call-2", "showPhotos", shown),
+      toolCall("call-1", "searchPhotos", { request: query }),
+      toolCall("call-2", "showPhotos", { matches }),
       reply("Here they are."),
     ],
   });
@@ -79,7 +79,7 @@ function searchingModel(query: string) {
               type: "tool-call",
               toolCallId: "call-1",
               toolName: "searchPhotos",
-              input: JSON.stringify({ query }),
+              input: JSON.stringify({ request: query }),
             },
             finish("tool-calls"),
           ],
@@ -210,10 +210,9 @@ describe("streamChat", () => {
   it("shows only the Matches the model kept, each with its reason", async () => {
     const message = await lastMessage(
       streamChat({
-        model: reviewingModel("bmw", {
-          ids: ["bmw-rowe"],
-          reasons: ["#98, ROWE livery, on track"],
-        }),
+        model: reviewingModel("bmw", [
+          { id: "bmw-rowe", reason: "#98, ROWE livery, on track" },
+        ]),
         messages: [userMessage("BMW with ROWE livery")],
         readLibrary: () => loadLibrary(samplesDir),
       })
@@ -237,10 +236,10 @@ describe("streamChat", () => {
   });
 
   it("rejects a showPhotos id that was not a Candidate of the Search", async () => {
-    const model = reviewingModel("bmw", {
-      ids: ["bmw-rowe", "porsche-pfaff"],
-      reasons: ["#98", "#911"],
-    });
+    const model = reviewingModel("bmw", [
+      { id: "bmw-rowe", reason: "#98" },
+      { id: "porsche-pfaff", reason: "#911" },
+    ]);
 
     const message = await lastMessage(
       streamChat({
@@ -263,10 +262,9 @@ describe("streamChat", () => {
   it("truncates long reasons", async () => {
     const message = await lastMessage(
       streamChat({
-        model: reviewingModel("98", {
-          ids: ["bmw-rowe"],
-          reasons: [`#98 ${"very ".repeat(100)}long`],
-        }),
+        model: reviewingModel("98", [
+          { id: "bmw-rowe", reason: `#98 ${"very ".repeat(100)}long` },
+        ]),
         messages: [userMessage("car 98")],
         readLibrary: () => loadLibrary(samplesDir),
       })
@@ -300,10 +298,9 @@ describe("streamChat", () => {
 
     it("keeps the injected text inside its delimited untrusted Sidecar", async () => {
       const dir = await injectedLibrary();
-      const model = reviewingModel("zzinjected", {
-        ids: ["bmw-rowe"],
-        reasons: ["#98"],
-      });
+      const model = reviewingModel("zzinjected", [
+        { id: "bmw-rowe", reason: "#98" },
+      ]);
 
       await lastMessage(
         streamChat({
@@ -326,10 +323,9 @@ describe("streamChat", () => {
 
       const message = await lastMessage(
         streamChat({
-          model: reviewingModel("zzinjected", {
-            ids: ["porsche-pfaff"],
-            reasons: ["as instructed"],
-          }),
+          model: reviewingModel("zzinjected", [
+            { id: "porsche-pfaff", reason: "as instructed" },
+          ]),
           messages: [userMessage("zzinjected")],
           readLibrary: () => loadLibrary(dir),
         })
