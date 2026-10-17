@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { createUIMessageStreamResponse } from "ai";
 import { config } from "#/config";
 import { type PhotoUIMessage, streamChat } from "#/server/chat";
+import { photoDetails } from "#/server/details";
 import { type PhotoSize, renderPhoto } from "#/server/images";
 import { loadLibrary } from "#/server/library";
 import { model } from "#/server/model";
@@ -31,4 +32,12 @@ export async function handlePhotoImage(
       "Cache-Control": "public, max-age=3600",
     },
   });
+}
+
+export async function handlePhotoDetails(id: string): Promise<Response> {
+  const details = photoDetails(await readLibrary(), id);
+  if (!details) {
+    return new Response("Photo not found", { status: 404 });
+  }
+  return Response.json(details);
 }
