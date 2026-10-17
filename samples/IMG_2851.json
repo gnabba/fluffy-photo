@@ -1,0 +1,55 @@
+{
+  "file": "IMG_2851.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:17:15.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 280,
+    "shutter_s": 0.005,
+    "aperture": 10,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "37",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "side_panel"
+      ],
+      "team_name": "PURE RXCING",
+      "class_label": null,
+      "manufacturer_model": "Prototype",
+      "car_type": "prototype",
+      "livery_colors": [
+        "black",
+        "blue",
+        "white"
+      ],
+      "livery_description": "The car has a predominantly black and blue livery with white accents.",
+      "sponsors": [
+        {
+          "name": "PURE RXCING",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "PURE RXCING",
+    "37"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A black and blue prototype race car, numbered 37, is seen driving on a race track. The car features the sponsor name PURE RXCING on its side. The background shows a red safety barrier and green trees."
+}

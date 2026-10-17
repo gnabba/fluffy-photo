@@ -1,0 +1,15 @@
+file: IMG_2849.jpg
+captured_at: 2025-08-23T06:16:53.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 280 | shutter_s: 1/200 | iso: 400
+car_numbers: 34
+cars: Porsche 911 GT3 R
+car_types: GT3
+sponsors: INTER; Eurosport; Rangeel; Mobil 1
+livery_colors: green; yellow; black
+visible_text: INTER | Eurosport | 34 | Rangeel | Mobil 1
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-34; gt3; inter; eurosport; rangeel; mobil-1; green; yellow; black; on_track
+
+description: A green and yellow Porsche 911 GT3 R, numbered 34, is driving on a race track. The car features sponsors including Eurosport and Rangeel. The background shows a red and yellow curbing barrier.
+
+car_1: #34 (clear) | Porsche 911 GT3 R | green, yellow, black | The car features a green and yellow livery with black accents. | sponsors: INTER, Eurosport, Rangeel, Mobil 1 | number on: rear
