@@ -112,4 +112,36 @@ describe("ChatMessage", () => {
 
     expect(html).not.toContain("<img");
   });
+
+  it("renders the model's text as minimal markdown without links, code, math or diagrams", () => {
+    const html = render(
+      assistant([
+        {
+          type: "text",
+          text: [
+            "Found **two** Photos, see [the file](/library/bmw-rowe.jpg) or https://example.com",
+            "",
+            "- `/library/bmw-rowe.jpg`",
+            "",
+            "```mermaid\ngraph TD; A-->B\n```",
+            "",
+            "$$x^2$$",
+          ].join("\n"),
+          state: "done",
+        },
+      ])
+    );
+
+    expect(html).toContain('data-streamdown="strong"');
+    expect(html).toContain("<li");
+    expect(html).not.toContain('data-streamdown="link"');
+    expect(html).not.toContain("<a ");
+    expect(html).not.toContain("href");
+    expect(html).not.toContain("<code");
+    expect(html).not.toContain("<pre");
+    expect(html).not.toContain("<svg");
+    expect(html).not.toContain("katex");
+    expect(html).not.toContain("<button");
+    expect(html).toContain("the file");
+  });
 });

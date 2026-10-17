@@ -69,8 +69,10 @@ function ShowPhotosPart({
   }
 }
 
-// Photos come only from validated showPhotos results, so the model's text may not embed images or raw HTML.
-const TEXT_DISALLOWED_ELEMENTS = ["img"];
+// Photos come only from validated showPhotos results, so the model's text is minimal markdown:
+// no images, links, code, math, diagrams or raw HTML that could point at paths or rich content.
+const TEXT_ALLOWED_ELEMENTS = ["p", "br", "strong", "em", "ul", "ol", "li"];
+const NO_PLUGINS = {};
 
 export interface ChatMessageProps {
   isStreaming: boolean;
@@ -90,9 +92,11 @@ export function ChatMessage({ isStreaming, message }: ChatMessageProps) {
                 <p key={key}>{part.text}</p>
               ) : (
                 <MessageResponse
-                  disallowedElements={TEXT_DISALLOWED_ELEMENTS}
+                  allowedElements={TEXT_ALLOWED_ELEMENTS}
                   key={key}
+                  plugins={NO_PLUGINS}
                   skipHtml
+                  unwrapDisallowed
                 >
                   {part.text}
                 </MessageResponse>
