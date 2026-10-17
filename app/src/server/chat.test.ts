@@ -235,7 +235,7 @@ describe("streamChat", () => {
     ]);
   });
 
-  it("rejects a showPhotos id that was not a Candidate of the Search", async () => {
+  it("drops showPhotos ids that were not Candidates of the Search, keeps the rest and tells the model", async () => {
     const model = reviewingModel("bmw", [
       { id: "bmw-rowe", reason: "#98" },
       { id: "porsche-pfaff", reason: "#911" },
@@ -250,13 +250,33 @@ describe("streamChat", () => {
     );
 
     const shown = showPart(message);
-    expect(shown.state).toBe("output-error");
-    expect(shown.state === "output-error" && shown.errorText).toContain(
-      "porsche-pfaff"
+    expect(shown.state).toBe("output-available");
+    expect(
+      shown.state === "output-available" && shown.output.map((m) => m.id)
+    ).toEqual(["bmw-rowe"]);
+    const toolResult = JSON.stringify(model.doStreamCalls[2]?.prompt.at(-1));
+    expect(toolResult).toContain("Shown: bmw-rowe");
+    expect(toolResult).toContain(
+      "Not shown, not Candidates of this Search: porsche-pfaff"
     );
-    expect(JSON.stringify(model.doStreamCalls[2]?.prompt)).toContain(
-      "Not a Candidate of this Search: porsche-pfaff"
+  });
+
+  it("shows a Match only once when the model repeats its id", async () => {
+    const message = await lastMessage(
+      streamChat({
+        model: reviewingModel("98", [
+          { id: "bmw-rowe", reason: "#98" },
+          { id: "bmw-rowe", reason: "again" },
+        ]),
+        messages: [userMessage("car 98")],
+        readLibrary: () => loadLibrary(samplesDir),
+      })
     );
+
+    const shown = showPart(message);
+    expect(
+      shown.state === "output-available" && shown.output.map((m) => m.reason)
+    ).toEqual(["#98"]);
   });
 
   it("truncates long reasons", async () => {
@@ -332,7 +352,8 @@ describe("streamChat", () => {
       );
 
       expect(searchPart(message).output.map((c) => c.id)).toEqual(["bmw-rowe"]);
-      expect(showPart(message).state).toBe("output-error");
+      const shown = showPart(message);
+      expect(shown.state === "output-available" && shown.output).toEqual([]);
     });
   });
 

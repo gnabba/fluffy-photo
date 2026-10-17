@@ -87,22 +87,34 @@ export function createSearchTools(readLibrary: ReadLibrary) {
           .describe("The Candidates that really match, best first"),
       }),
       execute: ({ matches: proposed }): Match[] => {
-        const rejected: string[] = [];
-        const matches = proposed.flatMap(({ id, reason: rawReason }) => {
+        const shown = new Map<string, Match>();
+        for (const { id, reason } of proposed) {
           const card = candidates.get(id);
-          if (!card) {
-            rejected.push(id);
-            return [];
+          if (card && !shown.has(id)) {
+            shown.set(id, {
+              ...card,
+              reason: truncate(reason, REASON_MAX_LENGTH),
+            });
           }
-          const reason = truncate(rawReason, REASON_MAX_LENGTH);
-          return [{ ...card, reason }];
-        });
+        }
+        return [...shown.values()];
+      },
+      toModelOutput: ({ input, output }) => {
+        const shown = new Set(output.map((match) => match.id));
+        const rejected = [
+          ...new Set(input.matches.map((match) => match.id)),
+        ].filter((id) => !shown.has(id));
+        const lines = [
+          shown.size > 0
+            ? `Shown: ${[...shown].join(", ")}.`
+            : "No Photos shown.",
+        ];
         if (rejected.length > 0) {
-          throw new Error(
-            `Not a Candidate of this Search: ${rejected.join(", ")}`
+          lines.push(
+            `Not shown, not Candidates of this Search: ${rejected.join(", ")}.`
           );
         }
-        return matches;
+        return { type: "text", value: lines.join("\n") };
       },
     }),
   };
