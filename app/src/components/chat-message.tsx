@@ -33,10 +33,10 @@ function MatchGrid({ matches }: { matches: Match[] }) {
     [matches]
   );
   const renderMatch = useCallback(
-    (photo: PhotoCard) => {
+    (photo: PhotoCard, open: () => void) => {
       const reason = reasons.get(photo.id);
       return (
-        <PhotoCardView photo={photo}>
+        <PhotoCardView onOpen={open} photo={photo}>
           <p className="line-clamp-3 text-foreground" title={reason}>
             {reason}
           </p>

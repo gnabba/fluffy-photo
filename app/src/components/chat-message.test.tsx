@@ -5,6 +5,8 @@ import type { PhotoUIMessage } from "#/server/chat";
 
 type Part = PhotoUIMessage["parts"][number];
 
+const OPENABLE_THUMBNAIL = /<button[^>]*><img[^>]*alt="bmw-rowe.jpg"/;
+
 const rowe = {
   id: "bmw-rowe",
   fileName: "bmw-rowe.jpg",
@@ -55,6 +57,7 @@ describe("ChatMessage", () => {
     );
 
     expect(html).toContain("bmw-rowe.jpg");
+    expect(html).toMatch(OPENABLE_THUMBNAIL);
     expect(html).not.toContain("bmw-wrt.jpg");
     expect(html).toContain("#98, ROWE livery, &lt;b&gt;on&lt;/b&gt; track");
   });
