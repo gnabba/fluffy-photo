@@ -18,9 +18,3 @@ export interface PhotoDetails {
   scene: string[];
   sponsors: string[];
 }
-
-export const largeImageUrl = (id: string) =>
-  `/api/photos/${encodeURIComponent(id)}/large`;
-
-export const photoDetailsUrl = (id: string) =>
-  `/api/photos/${encodeURIComponent(id)}/details`;

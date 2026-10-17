@@ -1,4 +1,4 @@
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { mkdtemp, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import sharp from "sharp";
@@ -32,18 +32,20 @@ describe("renderPhoto", () => {
   it("makes a webp thumbnail of about 400 px", async () => {
     const thumb = await render("car");
 
-    expect(thumb?.fromCache).toBe(false);
-    const meta = await sharp(thumb?.data).metadata();
+    const meta = await sharp(thumb).metadata();
     expect(meta.format).toBe("webp");
     expect(meta.width).toBe(400);
   });
 
   it("serves the thumbnail from the disk cache afterwards", async () => {
-    const first = await render("car");
-    const second = await render("car");
+    await render("car");
+    const [cached] = await readdir(join(cacheDir, "thumb"));
+    if (!cached) {
+      throw new Error("thumbnail not cached");
+    }
+    await writeFile(join(cacheDir, "thumb", cached), "cached bytes");
 
-    expect(second?.fromCache).toBe(true);
-    expect(second?.data.equals(first?.data ?? Buffer.alloc(0))).toBe(true);
+    expect((await render("car"))?.toString()).toBe("cached bytes");
   });
 
   it("makes a large webp of at most 1600 px, cached apart from the thumbnail", async () => {
@@ -58,8 +60,7 @@ describe("renderPhoto", () => {
     await renderPhoto(library, "car", "thumb", cacheDir);
     const large = await renderPhoto(library, "car", "large", cacheDir);
 
-    expect(large?.fromCache).toBe(false);
-    const meta = await sharp(large?.data).metadata();
+    const meta = await sharp(large).metadata();
     expect(meta.format).toBe("webp");
     expect(meta.width).toBe(1600);
     expect(meta.height).toBe(800);

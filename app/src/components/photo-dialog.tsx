@@ -7,13 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "#/components/ui/dialog";
-import type { PhotoCard } from "#/lib/photo-card";
-import {
-  type CarDetails,
-  largeImageUrl,
-  type PhotoDetails,
-  photoDetailsUrl,
-} from "#/lib/photo-details";
+import { type PhotoCard, photoUrl } from "#/lib/photo-card";
+import type { CarDetails, PhotoDetails } from "#/lib/photo-details";
 
 type DetailsState =
   | { status: "loading" }
@@ -28,7 +23,7 @@ function usePhotoDetails(id: string, enabled: boolean): DetailsState {
     }
     const controller = new AbortController();
     setState({ status: "loading" });
-    fetch(photoDetailsUrl(id), { signal: controller.signal })
+    fetch(photoUrl(id, "details"), { signal: controller.signal })
       .then(async (response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -138,7 +133,7 @@ export function PhotoDialog({
             alt={photo.fileName}
             className="h-auto max-h-[70vh] w-full rounded-md bg-muted object-contain"
             height={1067}
-            src={largeImageUrl(photo.id)}
+            src={photoUrl(photo.id, "large")}
             width={1600}
           />
           <Metadata state={state} />

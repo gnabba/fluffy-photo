@@ -1,29 +1,35 @@
 import { z } from "zod";
 import type { PhotoDetails } from "#/lib/photo-details";
 import { resolvePhoto } from "#/server/images";
-import { type Library, raceNumbersOf } from "#/server/library";
+import { type Library, toPhotoCard } from "#/server/library";
 
-const text = z.string().nullable().catch(null);
-const texts = z.array(z.string()).catch([]);
+const nullableStringSchema = z.string().nullable().catch(null);
+const stringListSchema = z.array(z.string()).catch([]);
 
 const detailsSchema = z.looseObject({
   cars: z
     .array(
       z.looseObject({
-        car_number: text,
-        manufacturer_model: text,
-        team_name: text,
-        car_type: text,
-        livery_colors: texts,
+        car_number: nullableStringSchema,
+        manufacturer_model: nullableStringSchema,
+        team_name: nullableStringSchema,
+        car_type: nullableStringSchema,
+        livery_colors: stringListSchema,
         sponsors: z.array(z.looseObject({ name: z.string() })).catch([]),
       })
     )
     .catch([]),
   scene: z
-    .looseObject({ setting: text, shot_type: text, weather_light: text })
+    .looseObject({
+      setting: nullableStringSchema,
+      shot_type: nullableStringSchema,
+      weather_light: nullableStringSchema,
+    })
     .nullable()
     .catch(null),
-  description: text.optional().transform((value) => value ?? null),
+  description: nullableStringSchema
+    .optional()
+    .transform((value) => value ?? null),
 });
 
 const unique = (values: string[]) => [...new Set(values)];
@@ -41,10 +47,7 @@ export function photoDetails(
   }
   const { cars, scene, description } = detailsSchema.parse(photo.sidecar);
   return {
-    id: photo.id,
-    fileName: photo.fileName,
-    path: photo.path,
-    raceNumbers: raceNumbersOf(photo.sidecar),
+    ...toPhotoCard(photo),
     cars: cars.map((car) => ({
       raceNumber: car.car_number,
       model: car.manufacturer_model,

@@ -4,7 +4,10 @@ import { z } from "zod";
 import type { LibraryOverview } from "#/lib/library-overview";
 import type { PhotoCard } from "#/lib/photo-card";
 
-const PHOTO_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+const PHOTO_EXTENSIONS = new Set([".jpg", ".jpeg", ".png"]);
+
+/** The ids the app serves: they go into URLs and into the model's Sidecar delimiters unescaped. */
+export const PHOTO_ID = /^[\w][\w.-]*$/;
 
 const sidecarSchema = z.looseObject({ file: z.string() });
 
@@ -73,6 +76,9 @@ async function readPhoto(
   fileName: string
 ): Promise<Photo | undefined> {
   const id = basename(fileName, extname(fileName));
+  if (!PHOTO_ID.test(id)) {
+    return undefined;
+  }
   const sidecar = parseSidecar(await readOptional(join(dir, `${id}.json`)));
   // a.jpg and a.png share a.json; the Sidecar's `file` field says which Photo owns it.
   if (sidecar?.file !== fileName) {
@@ -99,12 +105,12 @@ export async function loadLibrary(dir: string): Promise<Library> {
     .map((entry) => entry.name)
     .sort();
 
-  const readPhotos = await Promise.all(
+  const loadedPhotos = await Promise.all(
     fileNames.map((fileName) => readPhoto(dir, fileName))
   );
-  const photos = readPhotos.filter((photo) => photo !== undefined);
+  const photos = loadedPhotos.filter((photo) => photo !== undefined);
   const photosWithoutSidecar = fileNames.filter(
-    (_, index) => readPhotos[index] === undefined
+    (_, index) => loadedPhotos[index] === undefined
   );
 
   const name = basename(dir);
