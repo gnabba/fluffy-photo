@@ -12,6 +12,8 @@ const CACHE_DIR = resolve(".cache");
 
 const readLibrary = () => loadLibrary(config.libraryDir);
 
+const photoNotFound = () => new Response("Photo not found", { status: 404 });
+
 export async function handleChat(request: Request): Promise<Response> {
   const { messages }: { messages: PhotoUIMessage[] } = await request.json();
   return createUIMessageStreamResponse({
@@ -25,7 +27,7 @@ export async function handlePhotoImage(
 ): Promise<Response> {
   const rendered = await renderPhoto(await readLibrary(), id, size, CACHE_DIR);
   if (!rendered) {
-    return new Response("Photo not found", { status: 404 });
+    return photoNotFound();
   }
   return new Response(new Uint8Array(rendered.data), {
     headers: {
@@ -43,7 +45,7 @@ export async function handleExport(request: Request): Promise<Response> {
 export async function handlePhotoDetails(id: string): Promise<Response> {
   const details = photoDetails(await readLibrary(), id);
   if (!details) {
-    return new Response("Photo not found", { status: 404 });
+    return photoNotFound();
   }
   return Response.json(details);
 }

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { PhotoDetails } from "#/lib/photo-details";
 import { resolvePhoto } from "#/server/images";
-import { type Library, raceNumbersOf } from "#/server/library";
+import { type Library, toPhotoCard } from "#/server/library";
 
 const text = z.string().nullable().catch(null);
 const texts = z.array(z.string()).catch([]);
@@ -41,10 +41,7 @@ export function photoDetails(
   }
   const { cars, scene, description } = detailsSchema.parse(photo.sidecar);
   return {
-    id: photo.id,
-    fileName: photo.fileName,
-    path: photo.path,
-    raceNumbers: raceNumbersOf(photo.sidecar),
+    ...toPhotoCard(photo),
     cars: cars.map((car) => ({
       raceNumber: car.car_number,
       model: car.manufacturer_model,

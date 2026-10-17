@@ -11,5 +11,8 @@ export interface Match extends PhotoCard {
   reason: string;
 }
 
-export const thumbnailUrl = (id: string) =>
-  `/api/photos/${encodeURIComponent(id)}/thumb`;
+export type PhotoResource = "thumb" | "large" | "details";
+
+/** The URL of one of a Photo's endpoints: its thumbnail, large image or Sidecar details. */
+export const photoUrl = (id: string, resource: PhotoResource) =>
+  `/api/photos/${encodeURIComponent(id)}/${resource}`;

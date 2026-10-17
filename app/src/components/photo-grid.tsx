@@ -3,7 +3,7 @@ import { type ReactNode, useCallback, useState } from "react";
 import { PhotoDialog } from "#/components/photo-dialog";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
-import { type PhotoCard, thumbnailUrl } from "#/lib/photo-card";
+import { type PhotoCard, photoUrl } from "#/lib/photo-card";
 import { cn } from "#/lib/utils";
 
 function CopyPathButton({ path }: { path: string }) {
@@ -56,7 +56,7 @@ export function PhotoCardView({
       className="aspect-[4/3] w-full bg-muted object-cover"
       height={300}
       loading="lazy"
-      src={thumbnailUrl(photo.id)}
+      src={photoUrl(photo.id, "thumb")}
       width={400}
     />
   );
