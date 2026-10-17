@@ -4,7 +4,6 @@ import { PhotoDialog } from "#/components/photo-dialog";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { type PhotoCard, photoUrl } from "#/lib/photo-card";
-import { cn } from "#/lib/utils";
 
 function CopyPathButton({ path }: { path: string }) {
   const [copied, setCopied] = useState(false);
@@ -37,7 +36,6 @@ export interface PhotoCardViewProps {
   action?: ReactNode;
   /** Extra content under the path, e.g. the Match reason. */
   children?: ReactNode;
-  className?: string;
   onOpen?: () => void;
   photo: PhotoCard;
 }
@@ -46,7 +44,6 @@ export interface PhotoCardViewProps {
 export function PhotoCardView({
   action,
   children,
-  className,
   onOpen,
   photo,
 }: PhotoCardViewProps) {
@@ -61,12 +58,7 @@ export function PhotoCardView({
     />
   );
   return (
-    <figure
-      className={cn(
-        "overflow-hidden rounded-lg border bg-card text-card-foreground",
-        className
-      )}
-    >
+    <figure className="overflow-hidden rounded-lg border bg-card text-card-foreground">
       <div className="relative">
         {onOpen ? (
           <button className="block w-full" onClick={onOpen} type="button">
@@ -101,32 +93,26 @@ export function PhotoCardView({
 }
 
 export interface PhotoGridProps {
-  className?: string;
   /** Extra content in the photo dialog's header, e.g. the Selection toggle. */
   dialogAction?: (photo: PhotoCard) => ReactNode;
   photos: PhotoCard[];
-  /** Defaults to a plain PhotoCardView; pass `open` as the card's `onOpen` to keep the photo dialog. */
-  renderCard?: (photo: PhotoCard, open: () => void) => ReactNode;
+  /** Pass `open` as the card's `onOpen` to keep the photo dialog. */
+  renderCard: (photo: PhotoCard, open: () => void) => ReactNode;
 }
 
 interface GridCellProps {
   onOpen: (id: string) => void;
   photo: PhotoCard;
-  renderCard?: PhotoGridProps["renderCard"];
+  renderCard: PhotoGridProps["renderCard"];
 }
 
 function GridCell({ onOpen, photo, renderCard }: GridCellProps) {
   const open = useCallback(() => onOpen(photo.id), [onOpen, photo.id]);
-  return renderCard ? (
-    renderCard(photo, open)
-  ) : (
-    <PhotoCardView onOpen={open} photo={photo} />
-  );
+  return renderCard(photo, open);
 }
 
 /** Responsive grid of Photos, keyed by Photo id; clicking a card opens the photo dialog. */
 export function PhotoGrid({
-  className,
   dialogAction,
   photos,
   renderCard,
@@ -139,12 +125,7 @@ export function PhotoGrid({
     }
   }, []);
   return (
-    <div
-      className={cn(
-        "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4",
-        className
-      )}
-    >
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {photos.map((photo) => (
         <div key={photo.id}>
           <GridCell onOpen={setOpenId} photo={photo} renderCard={renderCard} />

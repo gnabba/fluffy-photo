@@ -1,6 +1,6 @@
 import { DownloadIcon } from "lucide-react";
 import { type ReactNode, useCallback } from "react";
-import { PhotoCardView, PhotoGrid } from "#/components/photo-grid";
+import { PhotoGrid } from "#/components/photo-grid";
 import { Button } from "#/components/ui/button";
 import { Checkbox } from "#/components/ui/checkbox";
 import type { PhotoCard } from "#/lib/photo-card";
@@ -82,8 +82,8 @@ export interface SelectableCardSlots {
 
 export interface SelectablePhotoGridProps {
   photos: PhotoCard[];
-  /** Defaults to a PhotoCardView with the checkbox and the dialog; override to add reasons. */
-  renderCard?: (photo: PhotoCard, slots: SelectableCardSlots) => ReactNode;
+  /** Pass the slots as PhotoCardView's `action` and `onOpen` to keep the checkbox and the dialog. */
+  renderCard: (photo: PhotoCard, slots: SelectableCardSlots) => ReactNode;
 }
 
 /** A Match grid with its own Selection and Export; the photo dialog shares the same Selection. */
@@ -97,11 +97,7 @@ export function SelectablePhotoGrid({
       const checkbox = (
         <SelectionCheckbox photo={photo} selection={selection} />
       );
-      return renderCard ? (
-        renderCard(photo, { checkbox, open })
-      ) : (
-        <PhotoCardView action={checkbox} onOpen={open} photo={photo} />
-      );
+      return renderCard(photo, { checkbox, open });
     },
     [renderCard, selection]
   );

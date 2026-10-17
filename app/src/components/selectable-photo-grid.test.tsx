@@ -2,7 +2,11 @@
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SelectablePhotoGrid } from "#/components/selectable-photo-grid";
+import { PhotoCardView } from "#/components/photo-grid";
+import {
+  type SelectableCardSlots,
+  SelectablePhotoGrid,
+} from "#/components/selectable-photo-grid";
 import type { PhotoCard } from "#/lib/photo-card";
 
 const photo = (id: string): PhotoCard => ({
@@ -21,14 +25,25 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+const renderCard = (
+  card: PhotoCard,
+  { checkbox, open }: SelectableCardSlots
+) => <PhotoCardView action={checkbox} onOpen={open} photo={card} />;
+
 const renderTwoGrids = () =>
   render(
     <>
       <section aria-label="first">
-        <SelectablePhotoGrid photos={[FERRARI, PORSCHE, BMW]} />
+        <SelectablePhotoGrid
+          photos={[FERRARI, PORSCHE, BMW]}
+          renderCard={renderCard}
+        />
       </section>
       <section aria-label="second">
-        <SelectablePhotoGrid photos={[FERRARI, PORSCHE]} />
+        <SelectablePhotoGrid
+          photos={[FERRARI, PORSCHE]}
+          renderCard={renderCard}
+        />
       </section>
     </>
   );

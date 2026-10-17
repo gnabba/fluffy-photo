@@ -23,11 +23,6 @@ export function resolvePhoto(library: Library, id: string): Photo | undefined {
   return resolve(photo.path).startsWith(root) ? photo : undefined;
 }
 
-export interface RenderedPhoto {
-  data: Buffer;
-  fromCache: boolean;
-}
-
 async function readCached(path: string): Promise<Buffer | undefined> {
   try {
     return await readFile(path);
@@ -42,7 +37,7 @@ export async function renderPhoto(
   id: string,
   size: PhotoSize,
   cacheDir: string
-): Promise<RenderedPhoto | undefined> {
+): Promise<Buffer | undefined> {
   const photo = resolvePhoto(library, id);
   if (!photo) {
     return undefined;
@@ -53,7 +48,7 @@ export async function renderPhoto(
 
   const cached = await readCached(cachePath);
   if (cached) {
-    return { data: cached, fromCache: true };
+    return cached;
   }
 
   const { pixels, quality } = SIZES[size];
@@ -73,5 +68,5 @@ export async function renderPhoto(
   const tempPath = `${cachePath}.${process.pid}.${Date.now()}.tmp`;
   await writeFile(tempPath, data);
   await rename(tempPath, cachePath);
-  return { data, fromCache: false };
+  return data;
 }

@@ -29,7 +29,7 @@ export async function handlePhotoImage(
   if (!rendered) {
     return photoNotFound();
   }
-  return new Response(new Uint8Array(rendered.data), {
+  return new Response(new Uint8Array(rendered), {
     headers: {
       "Content-Type": "image/webp",
       "Cache-Control": "public, max-age=3600",
