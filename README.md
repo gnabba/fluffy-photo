@@ -1,29 +1,35 @@
-# Race car photo metadata
+# Fluffy Photo — race car photo metadata extractor
 
-Goal: extract searchable metadata from race car photos (race numbers, sponsors, livery, class, scene) into one `.txt` file per photo, so the photos can later be searched with a small LLM or a vector database.
+Built for [Hacktoberfest Hack Day Milano × Coding Bunker](https://www.mlh.com/events/hacktoberfest-hack-day-milano-x-coding-bunker) (Hacktoberfest 2026).
+
+**Find the shot while the race is still on.** Fluffy Photo reads each photo as it comes off the camera, extracts race numbers, teams, sponsors, liveries, classes and scene context with an open-weight vision model, and writes searchable `.txt` + `.json` sidecars — so "all shots of car #98 in the pits" is a query, not a half-hour scroll.
 
 Status: **working prototype**. Extraction works end to end on a handful of test photos; search returns Candidates from a local LanceDB index, but its quality is not measured yet.
 
-## Decisions so far
+## The problem
 
-1. **Open source only, cross-platform.** The stack must run on Linux and Windows as well as macOS, so macOS-only tools (Apple Vision OCR, MLX) were dropped.
-2. **One model does all the visual work: Gemma 4 E4B** (Apache-2.0), run locally with [Ollama](https://ollama.com/library/gemma4) as `gemma4:e4b`. There is no separate OCR or logo detector for now.
-3. **Node.js** for the tooling.
-4. **Search stack**: LanceDB with hybrid search (BM25 on the `.txt` + vectors from `nomic-embed-text` on Ollama), with exact race number matches ranked first. Searches are in English.
+During a race, photographers and photojournalists shoot thousands of frames that land on the laptop as `IMG_2843.jpg`. When the editor calls asking for shots of car #98 for the article, or a team wants photos of its car for social media *now*, finding them means scrolling through the card for precious minutes — and news value decays by the minute.
 
-The research behind these choices, with sources, is in [`docs/research/race-car-photo-metadata-extraction.md`](docs/research/race-car-photo-metadata-extraction.md).
+Deadlines are the whole game: a photo sent during the race makes the article; a photo sent the next day doesn't. Manual tagging between sessions is too slow, and cloud vision APIs are a non-starter trackside (expensive, unreliable connectivity, and clients' photos shouldn't leave your machine). Fluffy Photo tags every frame locally, as it's imported, so the archive is searchable the moment the chequered flag falls.
 
-## Repository layout
+## Why it fits the Hack Day challenges
 
-| Path | What it is |
+| Challenge | Why this project |
 |---|---|
-| `docs/research/race-car-photo-metadata-extraction.md` | Research notes: OCR, small vision models, logo detection, embeddings, vector DBs, EXIF/XMP, pitfalls |
-| `extractor/` | The extraction script ([usage](extractor/README.md)) |
-| `extractor/extract.mjs` | Reads EXIF, asks Gemma for structured JSON, checks race numbers, writes `.txt` + `.json` sidecars |
-| `extractor/prompt.md` | System prompt sent to the model |
-| `extractor/schema.json` | JSON schema enforced through Ollama's `format` parameter |
-| `search/` | Indexing and search over the `.txt` sidecars ([usage](search/README.md)) |
-| `samples/` | Test photos from Wikimedia Commons and the sidecars generated for them |
+| **Best Use of Gemma 4** (Google DeepMind) | The entire visual pipeline runs on **Gemma 4 E4B** (Apache-2.0) via Ollama: OCR-by-vision (race numbers, sponsors, class markings), scene understanding and structured JSON extraction, in a single pass per photo. |
+| **Best Open-Source AI Project** (DigitalOcean) | Open-weight model, fully local inference, open-source license (GPL-3.0-or-later), public repo. No API keys, no data leaves the machine. |
+
+## Quick start
+
+Prerequisites: [Node.js ≥ 20](https://nodejs.org) and [Ollama](https://ollama.com).
+
+```sh
+ollama pull gemma4:e4b
+cd extractor && npm install
+node extract.mjs ../samples --force
+```
+
+Each photo `X.jpg` gets `X.txt` (key/value metadata + description, for BM25/vector search) and `X.json` (all extracted data). Optional: `--entries entrylist.csv` checks extracted race numbers against an entry list to reject invented digits.
 
 ## How extraction works
 
@@ -35,33 +41,28 @@ For each photo the script:
 4. keeps a race number only if the model marks it `clear` and, when `--entries` is given, it is on the entry list; otherwise it is kept as a candidate with the reason;
 5. writes `photo.json` (all data) and `photo.txt` (key/value header + description, ready for full-text and vector search).
 
-Quick start:
+## Open-source stack
 
-```sh
-ollama pull gemma4:e4b
-cd extractor && npm install
-node extract.mjs ../samples --force
-```
-
-## Test results
-
-Five photos from Wikimedia Commons, run on an Apple M4 Pro (24 GB) with `gemma4:e4b`, about 7–10 s per photo after the model is loaded.
-
-| Photo | Race number | Notes on the rest |
+| Component | Role | License |
 |---|---|---|
-| `bmw-rowe.jpg` (BMW M4 GT3, Spa 2023) | 98 ✅ | Sponsors mostly correct; "M Motorsport" listed as a sponsor |
-| `bmw-wrt.jpg` (Team WRT BMW M4 GT3, Spa 2024) | 31 ✅ | Class "LM GT3" correct; team given as "M Motorsport" instead of WRT |
-| `ferrari-lmcorsa.jpg` (Ferrari 296 GT3, show display) | 60 ✅ | Class "PRO-AM" and setting "display" correct; "TAICHI" misread as "TAGHI" |
-| `nascar-menard.jpg` (Paul Menard NASCAR Cup car) | 27 ✅ | Many sponsors read; team given as "MENARD" |
-| `porsche-pfaff.jpg` (Pfaff Motorsports Porsche 911 GT3 R) | 9 ✅ | Class "GTD" correct; team given as "HAGERTY" (a sponsor); "IMSA" listed as a sponsor |
+| [Gemma 4 E4B](https://ollama.com/library/gemma4) | Vision + structured extraction, one model does all the visual work | Apache-2.0 |
+| [Ollama](https://ollama.com) | Local inference, enforces the JSON schema via the `format` parameter | MIT |
+| [exifr](https://github.com/MikeKovarik/exifr) | EXIF reading | MIT |
+| [Node.js](https://nodejs.org) | Tooling | MIT |
+| LanceDB + `nomic-embed-text` | Hybrid search (BM25 + vectors) over the sidecars, exact race number matches first | Apache-2.0 / MIT |
 
-The race numbers match the Commons file titles; the WRT and Ferrari photos were also checked by eye. Five photos are far too few to measure accuracy: they only show that the pipeline works.
+Decisions and alternatives considered (Apple Vision, MLX, dedicated OCR/logo detectors) are documented with sources in [`docs/research/race-car-photo-metadata-extraction.md`](docs/research/race-car-photo-metadata-extraction.md).
 
-### Prompt changes made while testing
+## Repository layout
 
-- Added `class_label` per car and a `display` value for `scene.setting`, because class markings were being listed as sponsors and a show car was tagged as on track.
-- Added rules separating team, sponsor, manufacturer brand and series.
-- Removed named examples (such as "IMSA") from the series rule, because the model copied them into photos where they did not appear.
+| Path | What it is |
+|---|---|
+| `docs/research/race-car-photo-metadata-extraction.md` | Research notes: OCR, small vision models, logo detection, embeddings, vector DBs, EXIF/XMP, pitfalls |
+| `extractor/` | The extraction script ([usage](extractor/README.md)) |
+| `extractor/extract.mjs` | Reads EXIF, asks Gemma for structured JSON, checks race numbers, writes `.txt` + `.json` sidecars |
+| `extractor/prompt.md` | System prompt sent to the model |
+| `extractor/schema.json` | JSON schema enforced through Ollama's `format` parameter |
+| `search/` | Indexing and search over the `.txt` sidecars ([usage](search/README.md)) |
 
 ## Known limitations
 
@@ -71,20 +72,27 @@ The race numbers match the Commons file titles; the WRT and Ferrari photos were 
 - **Small text**: Gemma 4 supports up to 1120 visual tokens per image, but Ollama's API documents no option to choose the budget, so fine details may be lost on wide shots.
 - **Only JPEG, PNG and WebP**: RAW and HEIC files must be converted first.
 
-## Next steps (not started)
+## Roadmap
+
+Hack Day (2026-10-17, Milan):
 
 1. Label 50–100 real photos by hand and measure accuracy per field.
 2. Write 10–20 test Searches with the Photos each should return, and measure how many land in the top Candidates.
-3. Only if the measurements show a gap: add an OCR cross-check for numbers (PaddleOCR/EasyOCR) or logo matching (SigLIP 2), as described in the research notes.
+3. Iterate on the prompt/schema based on the measurements.
 
-## Sample photo credits
+After the event:
 
-All from Wikimedia Commons, resized to 1920 px wide where larger:
+4. Only if the measurements show a gap: add an OCR cross-check for numbers (PaddleOCR/EasyOCR) or logo matching (SigLIP 2), as described in the research notes.
 
-- `bmw-rowe.jpg`: [98BMWROWE24HSPA2023.jpg](https://commons.wikimedia.org/wiki/File:98BMWROWE24HSPA2023.jpg), CC BY-SA 4.0
-- `bmw-wrt.jpg`: [2024 6 Hours of Spa-Francorchamps Team WRT BMW M4 GT3 No.31 (DSC02566).jpg](https://commons.wikimedia.org/wiki/File:2024_6_Hours_of_Spa-Francorchamps_Team_WRT_BMW_M4_GT3_No.31_(DSC02566).jpg), CC BY-SA 4.0
-- `ferrari-lmcorsa.jpg`: [Ferrari 296 GT3 of LM Corsa.jpg](https://commons.wikimedia.org/wiki/File:Ferrari_296_GT3_of_LM_Corsa.jpg), CC0
-- `nascar-menard.jpg`: [Paul Menard NASCAR Cup car shown at Road America 2012.jpg](https://commons.wikimedia.org/wiki/File:Paul_Menard_NASCAR_Cup_car_shown_at_Road_America_2012.jpg), CC BY-SA 3.0
-- `porsche-pfaff.jpg`: [Pfaff Motorsports's Porsche 911 GT3 R ar Road america.jpg](https://commons.wikimedia.org/wiki/File:Pfaff_Motorsports%27s_Porsche_911_GT3_R_ar_Road_america.jpg), CC BY 2.0
+## Contributing
 
-See each file page for the author and full licence terms.
+Issues and PRs welcome — this repo is also a playground for Hacktoberfest contributions. See [open issues](../../issues) for ideas (search backend, prompt improvements, accuracy benchmarks, more sample photos).
+
+## Team
+
+Built at Hacktoberfest Hack Day Milano × Coding Bunker, 2026-10-17. *(Team members: TBD before submission.)*
+
+## License
+
+[GNU GPL v3 or later](LICENSE) (GPL-3.0-or-later). Sample photos in `samples/` are from Wikimedia Commons and remain under their own licences (CC BY-SA / CC0 / CC BY).
+
