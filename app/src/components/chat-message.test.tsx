@@ -24,18 +24,8 @@ const searched: Part = {
   type: "tool-searchPhotos",
   toolCallId: "call-1",
   state: "output-available",
-  input: { query: "98" },
-  output: [
-    { ...rowe, score: 10, sidecarText: "car_numbers: 98" },
-    {
-      id: "bmw-wrt",
-      fileName: "bmw-wrt.jpg",
-      path: "/library/bmw-wrt.jpg",
-      raceNumbers: ["31"],
-      score: 1,
-      sidecarText: "car_numbers: 31",
-    },
-  ],
+  input: { request: "98" },
+  output: ["bmw-rowe", "bmw-wrt"],
 };
 
 const render = (message: PhotoUIMessage) =>
@@ -50,7 +40,7 @@ describe("ChatMessage", () => {
           type: "tool-showPhotos",
           toolCallId: "call-2",
           state: "output-available",
-          input: { ids: ["bmw-rowe"], reasons: ["#98, ROWE livery"] },
+          input: { matches: [{ id: "bmw-rowe", reason: "#98, ROWE livery" }] },
           output: [{ ...rowe, reason: "#98, ROWE livery, <b>on</b> track" }],
         },
       ])
@@ -70,7 +60,7 @@ describe("ChatMessage", () => {
           type: "tool-showPhotos",
           toolCallId: "call-2",
           state: "output-available",
-          input: { ids: ["bmw-rowe"], reasons: ["#98"] },
+          input: { matches: [{ id: "bmw-rowe", reason: "#98" }] },
           output: [{ ...rowe, reason: "#98" }],
         },
       ])
@@ -100,7 +90,7 @@ describe("ChatMessage", () => {
           type: "tool-showPhotos",
           toolCallId: "call-2",
           state: "output-error",
-          input: { ids: ["porsche-pfaff"], reasons: ["x"] },
+          input: { matches: [{ id: "porsche-pfaff", reason: "x" }] },
           errorText: "Not a Candidate of this Search: porsche-pfaff",
         },
       ])
@@ -121,5 +111,37 @@ describe("ChatMessage", () => {
     );
 
     expect(html).not.toContain("<img");
+  });
+
+  it("renders the model's text as minimal markdown without links, code, math or diagrams", () => {
+    const html = render(
+      assistant([
+        {
+          type: "text",
+          text: [
+            "Found **two** Photos, see [the file](/library/bmw-rowe.jpg) or https://example.com",
+            "",
+            "- `/library/bmw-rowe.jpg`",
+            "",
+            "```mermaid\ngraph TD; A-->B\n```",
+            "",
+            "$$x^2$$",
+          ].join("\n"),
+          state: "done",
+        },
+      ])
+    );
+
+    expect(html).toContain('data-streamdown="strong"');
+    expect(html).toContain("<li");
+    expect(html).not.toContain('data-streamdown="link"');
+    expect(html).not.toContain("<a ");
+    expect(html).not.toContain("href");
+    expect(html).not.toContain("<code");
+    expect(html).not.toContain("<pre");
+    expect(html).not.toContain("<svg");
+    expect(html).not.toContain("katex");
+    expect(html).not.toContain("<button");
+    expect(html).toContain("the file");
   });
 });

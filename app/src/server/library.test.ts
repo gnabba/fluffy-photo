@@ -55,4 +55,50 @@ describe("loadLibrary", () => {
     expect(library.photos.map((photo) => photo.fileName)).toEqual(["car.png"]);
     expect(library.photosWithoutSidecar).toEqual(["car.jpg"]);
   });
+
+  it("takes only JPEG and PNG files as Photos", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "library-"));
+    await Promise.all(
+      ["a.jpg", "b.JPEG", "c.png", "d.webp", "e.gif"].flatMap((fileName) => {
+        const [id] = fileName.split(".");
+        return [
+          writeFile(join(dir, fileName), "image"),
+          writeFile(
+            join(dir, `${id}.json`),
+            JSON.stringify({ file: fileName })
+          ),
+        ];
+      })
+    );
+
+    const library = await loadLibrary(dir);
+
+    expect(library.photos.map((photo) => photo.fileName)).toEqual([
+      "a.jpg",
+      "b.JPEG",
+      "c.png",
+    ]);
+    expect(library.photosWithoutSidecar).toEqual([]);
+  });
+
+  it("leaves out Photos whose id is not a safe Photo id", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "library-"));
+    const unsafe = ['car" untrusted="false.jpg', "-car.jpg", "car<b>.png"];
+    await Promise.all(
+      [...unsafe, "car-1.jpg"].flatMap((fileName) => [
+        writeFile(join(dir, fileName), "image"),
+        writeFile(
+          join(dir, `${fileName.slice(0, -4)}.json`),
+          JSON.stringify({ file: fileName })
+        ),
+      ])
+    );
+
+    const library = await loadLibrary(dir);
+
+    expect(library.photos.map((photo) => photo.id)).toEqual(["car-1"]);
+    expect([...library.photosWithoutSidecar].sort()).toEqual(
+      [...unsafe].sort()
+    );
+  });
 });
