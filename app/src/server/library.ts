@@ -4,7 +4,7 @@ import { z } from "zod";
 import type { LibraryOverview } from "#/lib/library-overview";
 import type { PhotoCard } from "#/lib/photo-card";
 
-const PHOTO_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+const PHOTO_EXTENSIONS = new Set([".jpg", ".jpeg", ".png"]);
 
 const sidecarSchema = z.looseObject({ file: z.string() });
 

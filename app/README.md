@@ -31,7 +31,7 @@ Example:
 LIBRARY_DIR=/data/race-photos LLM_MODEL=my-model pnpm dev
 ```
 
-Photos without a valid Sidecar (`<name>.json`) are counted separately and otherwise ignored.
+Only JPEG and PNG files are Photos. Photos without a valid Sidecar (`<name>.json`) are counted separately and otherwise ignored.
 Sidecars are re-read on every Search, so new ones are picked up without a restart.
 Thumbnails are generated with `sharp` on first request and cached in `app/.cache/` (safe to delete).
 
