@@ -2,10 +2,26 @@ import { readdir, readFile } from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 import { z } from "zod";
 import type { LibraryOverview } from "#/lib/library-overview";
+import type { PhotoCard } from "#/lib/photo-card";
 
 const PHOTO_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
 const sidecarSchema = z.looseObject({ file: z.string() });
+
+const raceNumbersSchema = z
+  .looseObject({
+    cars: z.array(
+      z.looseObject({ car_number: z.string().nullable().catch(null) })
+    ),
+  })
+  .transform(({ cars }) =>
+    cars.flatMap((car) => (car.car_number ? [car.car_number] : []))
+  )
+  .catch([]);
+
+/** The confirmed race numbers of a Sidecar; rejected readings are left out. */
+export const raceNumbersOf = (sidecar: Sidecar): string[] =>
+  raceNumbersSchema.parse(sidecar);
 
 export type Sidecar = z.infer<typeof sidecarSchema>;
 
@@ -24,6 +40,13 @@ export interface Library {
   photos: Photo[];
   photosWithoutSidecar: string[];
 }
+
+export const toPhotoCard = (photo: Photo): PhotoCard => ({
+  id: photo.id,
+  fileName: photo.fileName,
+  path: photo.path,
+  raceNumbers: raceNumbersOf(photo.sidecar),
+});
 
 async function readOptional(path: string): Promise<string | undefined> {
   try {
