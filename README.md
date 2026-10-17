@@ -18,6 +18,7 @@ Deadlines are the whole game: a photo sent during the race makes the article; a 
 |---|---|
 | **Best Use of Gemma 4** (Google DeepMind) | The entire visual pipeline runs on **Gemma 4 E4B** (Apache-2.0) via Ollama: OCR-by-vision (race numbers, sponsors, class markings), scene understanding and structured JSON extraction, in a single pass per photo. |
 | **Best Open-Source AI Project** (DigitalOcean) | Open-weight model, fully local inference, open-source license (GPL-3.0-or-later), public repo. No API keys, no data leaves the machine. |
+| **Most Creative Hack** | One open-weight vision model quietly turns a laptop in the media centre into a searchable race archive — no cloud, no lab, just a camera, a card and a deadline. |
 
 ## Quick start
 
@@ -83,13 +84,24 @@ After the event:
 
 4. Only if the measurements show a gap: add an OCR cross-check for numbers (PaddleOCR/EasyOCR) or logo matching (SigLIP 2), as described in the research notes.
 
+## Future evolutions
+
+- **Beyond motorsport**: the same pipeline generalises to any sport with numbered athletes and sponsor-rich visuals — football, cycling, basketball, skiing. The prompt and schema are the only things to adapt per sport.
+- **iPad and MacBook support**: a trackside workflow that runs where photographers actually work — from the laptop in the media centre to the iPad in the stands.
+- **Remote archive management**: centralised, searchable archives shared between photographers, editorial desks and agencies, so an editorial desk can search a photographer's card without waiting for the upload.
+
 ## Contributing
 
 Issues and PRs welcome — this repo is also a playground for Hacktoberfest contributions. See [open issues](../../issues) for ideas (search backend, prompt improvements, accuracy benchmarks, more sample photos).
 
 ## Team
 
-Built at Hacktoberfest Hack Day Milano × Coding Bunker, 2026-10-17. *(Team members: TBD before submission.)*
+Built at Hacktoberfest Hack Day Milano × Coding Bunker, 2026-10-17.
+
+- [ludusrusso](https://github.com/ludusrusso)
+- [elena563](https://github.com/elena563)
+- [bombo82](https://github.com/bombo82)
+- [crakdelpol](https://github.com/crakdelpol)
 
 ## License
 
