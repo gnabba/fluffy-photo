@@ -13,14 +13,14 @@
   },
   "cars": [
     {
-      "car_number": "919",
+      "car_number": "83",
       "car_number_legible": "clear",
       "car_number_location": [
-        "rear"
+        "side"
       ],
       "team_name": null,
       "class_label": null,
-      "manufacturer_model": "Porsche 919",
+      "manufacturer_model": null,
       "car_type": "prototype",
       "livery_colors": [
         "black",
@@ -37,23 +37,6 @@
       ],
       "car_number_candidate": null,
       "car_number_check": "clear"
-    },
-    {
-      "car_number": null,
-      "car_number_legible": "not_visible",
-      "car_number_location": [],
-      "team_name": null,
-      "class_label": null,
-      "manufacturer_model": null,
-      "car_type": "prototype",
-      "livery_colors": [
-        "black",
-        "white"
-      ],
-      "livery_description": "A dark race car is visible slightly behind the main subject.",
-      "sponsors": [],
-      "car_number_candidate": null,
-      "car_number_check": "not_read"
     }
   ],
   "series_or_event": null,
@@ -67,5 +50,5 @@
     "weather_light": "daylight",
     "people": "none"
   },
-  "description": "A black and white Porsche 919 prototype race car, numbered 919, is driving on a track. The car features Michelin sponsorship visible on its side panel. The background shows yellow and red safety barriers."
+  "description": "A black and white prototype race car with red accents, numbered 83, is driving on a track. The car features Michelin sponsorship visible on its side panel. The background shows yellow and red safety barriers."
 }
