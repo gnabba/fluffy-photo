@@ -5,6 +5,7 @@ export interface Config {
   llmApiKey: string | undefined;
   llmBaseUrl: string;
   llmModel: string;
+  ollamaUrl: string;
 }
 
 type Env = Record<string, string | undefined>;
@@ -19,6 +20,7 @@ export function readConfig(env: Env): Config {
     llmModel:
       nonEmpty(env.LLM_MODEL) ?? "unsloth/Qwen3.8-Flash-Next-GGUF:UD-Q4_K_XL",
     llmApiKey: nonEmpty(env.LLM_API_KEY),
+    ollamaUrl: nonEmpty(env.OLLAMA_URL) ?? "http://localhost:11434",
   };
 }
 

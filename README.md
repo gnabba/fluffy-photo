@@ -40,6 +40,7 @@ Then search the photos from the web app (needs Node ≥ 22, pnpm and a local `ll
 
 ```sh
 llama-server -hf unsloth/Qwen3.8-Flash-Next-GGUF:UD-Q4_K_XL --jinja --port 8080
+ollama pull nomic-embed-text   # embeddings for the hybrid search index
 cd app && pnpm install && pnpm dev   # http://localhost:3000
 ```
 
@@ -71,7 +72,7 @@ flowchart LR
     subgraph app["Retrieval + generation — app/ (online)"]
         direction TB
         UI["Chat UI<br/>React + AI Elements"] -->|"POST /api/chat"| AGENT["Agent loop<br/>AI SDK streamText"]
-        AGENT -->|"tool: searchPhotos"| SEARCH["Weighted lexical search<br/>over Sidecars → top 20 Candidates"]
+        AGENT -->|"tool: searchPhotos"| SEARCH["Hybrid search (LanceDB)<br/>race number + BM25 + vectors → top 20 Candidates"]
         SEARCH -->|"Sidecars as untrusted context"| AGENT
         AGENT -->|"tool: showPhotos(id, reason)"| UI
         UI -->|"GET /api/photos/:id/thumb"| IMG["sharp → webp thumbnails<br/>cached in .cache/"]
@@ -109,8 +110,8 @@ sequenceDiagram
     UI->>S: POST /api/chat (UI messages)
     S->>L: system prompt + conversation + tools
     L-->>S: call searchPhotos("98 pits")
-    S->>FS: re-read every Sidecar
-    S->>S: score tokens per field<br/>(race number ×10, team/sponsor/livery ×3, …)
+    S->>FS: re-read every Sidecar, rebuild the index if they changed
+    S->>S: race number matches first,<br/>then BM25 + nomic-embed-text vectors fused with RRF
     S-->>L: top 20 Candidates as untrusted sidecar blocks
     L->>L: read each Sidecar, drop false positives
     L-->>S: call showPhotos([{id, reason}])
@@ -128,11 +129,11 @@ In RAG terms:
 | RAG step | In Fluffy Photo |
 |---|---|
 | **Index** | The extractor writes one `.json` + `.txt` Sidecar per photo. |
-| **Retrieve** | `searchPhotos` scores every Sidecar against the request's keywords, with field weights (race number counts 10×, teams/sponsors/livery 3×, scene and description 1×) and returns the top 20 Candidates. Recall over precision: it is deliberately loose. |
+| **Retrieve** | `searchPhotos` queries a LanceDB index of the Sidecars: Photos with a race number from the request first, then BM25 + `nomic-embed-text` vector search fused with RRF, top 20 Candidates. EXIF lines are not indexed, so a timestamp never matches a race number. If Ollama or the index is unavailable it falls back to a weighted lexical search (race number 10×, teams/sponsors/livery 3×, scene and description 1×). Recall over precision: it is deliberately loose. |
 | **Augment** | The Candidates' `.txt` Sidecars are injected into the conversation as tool output, wrapped in `<sidecar untrusted="true">` and escaped, so text read off a livery can never act as an instruction. |
 | **Generate** | The LLM reranks by reading the Sidecars, calls `showPhotos` with only the real Matches and a short reason each, then writes one sentence. The server rejects any id that the search did not return, and replaces the reply with "I couldn't find any photos" when nothing was shown — so the model cannot invent photos. |
 
-What it is **not** (yet): there are no embeddings and no vector database. Retrieval is lexical, the LLM is the semantic layer on top of it, and the Library is re-read on every search, so new Sidecars appear without a restart. This is plenty for one race card (hundreds to a few thousand photos); hybrid search with LanceDB + `nomic-embed-text` is the planned next step for larger archives (see [Roadmap](#roadmap)).
+The index lives in `<library>/.search-index/` and is keyed on a hash of the Sidecars: the Library is re-read on every search and the index is rebuilt only when a Sidecar changed, so new Sidecars appear without a restart. The LLM stays the precision layer on top of retrieval.
 
 ## How extraction works
 
@@ -152,7 +153,7 @@ For each photo the script:
 | [Ollama](https://ollama.com) | Local inference, enforces the JSON schema via the `format` parameter | MIT |
 | [exifr](https://github.com/MikeKovarik/exifr) | EXIF reading | MIT |
 | [Node.js](https://nodejs.org) | Tooling | MIT |
-| LanceDB + `nomic-embed-text` | *Planned*: hybrid search (BM25 + vectors) over the sidecars | Apache-2.0 / MIT |
+| LanceDB + `nomic-embed-text` | Hybrid search (BM25 + vectors) over the sidecars in the web app | Apache-2.0 / MIT |
 
 ## Web app stack
 
@@ -167,6 +168,7 @@ The search app in [`app/`](app/) is a single full-stack TypeScript project: the 
 | Chat components | [AI Elements](https://ai-sdk.dev/elements) + [Streamdown](https://streamdown.ai) | Conversation, prompt input, reasoning and streaming Markdown |
 | LLM orchestration | [Vercel AI SDK](https://ai-sdk.dev) (`ai`, `@ai-sdk/react`, `@ai-sdk/openai-compatible`) | `streamText` agent loop with tools, `useChat` streaming on the client |
 | Local LLM | [llama.cpp](https://github.com/ggml-org/llama.cpp) `llama-server` (default: Qwen GGUF) | OpenAI-compatible endpoint with tool calling; any compatible server works via `LLM_BASE_URL` |
+| Retrieval | [LanceDB](https://lancedb.com) + [`nomic-embed-text`](https://ollama.com/library/nomic-embed-text) on Ollama | Embedded hybrid index (full-text + vectors) over the Sidecars |
 | Validation | [Zod 4](https://zod.dev) | Tool input schemas and tolerant Sidecar parsing |
 | Images | [sharp](https://sharp.pixelplumbing.com) | On-demand webp thumbnails and previews, cached on disk |
 | Export | [archiver](https://github.com/archiverjs/node-archiver) | Streams the selected original photos as a zip |
@@ -189,7 +191,8 @@ Decisions and alternatives considered (Apple Vision, MLX, dedicated OCR/logo det
 | `extractor/prompt.md` | System prompt sent to the model |
 | `extractor/schema.json` | JSON schema enforced through Ollama's `format` parameter |
 | `app/` | Chat web app to search the Library and export photos ([setup](app/README.md)) |
-| `app/src/server/search.ts` | Weighted lexical retrieval over the Sidecars |
+| `app/src/server/search-index.ts` | Hybrid retrieval: LanceDB index of the Sidecars, race number + BM25 + vectors |
+| `app/src/server/search.ts` | Weighted lexical retrieval over the Sidecars, used as fallback |
 | `app/src/server/chat.ts` | System prompt, `searchPhotos` / `showPhotos` tools and the agent loop |
 | `samples/` | Sample photos with their generated Sidecars |
 
@@ -206,7 +209,7 @@ Decisions and alternatives considered (Apple Vision, MLX, dedicated OCR/logo det
 Hack Day (2026-10-17, Milan):
 
 1. Label 50–100 real photos by hand and measure accuracy per field.
-2. ~~Search over the sidecars~~ — done with lexical retrieval + LLM reranking in the web app; next, a LanceDB hybrid index (BM25 + vectors) for larger archives.
+2. ~~Search over the sidecars~~ — done with a LanceDB hybrid index (BM25 + vectors) + LLM reranking in the web app.
 3. Iterate on the prompt/schema based on the measurements.
 
 After the event:

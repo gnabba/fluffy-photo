@@ -1,5 +1,5 @@
 import type { PhotoCard } from "#/lib/photo-card";
-import { type Photo, toPhotoCard } from "#/server/library";
+import { type Library, type Photo, toPhotoCard } from "#/server/library";
 
 export const CANDIDATE_LIMIT = 20;
 
@@ -7,6 +7,12 @@ export interface Candidate extends PhotoCard {
   score: number;
   sidecarText: string;
 }
+
+/** Finds the Candidates for a Search in a Library, best first. */
+export type FindCandidates = (
+  library: Library,
+  request: string
+) => Promise<Candidate[]>;
 
 const FIELD_WEIGHTS: [path: string, weight: number][] = [
   ["cars.car_number", 10],
@@ -100,3 +106,6 @@ export function searchPhotos(
       sidecarText: photo.sidecarText,
     }));
 }
+
+export const lexicalSearch: FindCandidates = async (library, request) =>
+  searchPhotos(library.photos, request);

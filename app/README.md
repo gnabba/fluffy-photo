@@ -24,6 +24,7 @@ Every value has a default in `src/config.ts`. Each one can be overridden with an
 | `LLM_BASE_URL` | `http://localhost:8080/v1` | OpenAI-compatible endpoint (local llama.cpp by default)   |
 | `LLM_MODEL`    | `unsloth/Qwen3.8-Flash-Next-GGUF:UD-Q4_K_XL` | Model id exposed by the server (`GET /v1/models`) |
 | `LLM_API_KEY`  | unset                      | Optional bearer token                                     |
+| `OLLAMA_URL`   | `http://localhost:11434`   | Ollama serving `nomic-embed-text` for the search index    |
 
 Example:
 
@@ -33,6 +34,7 @@ LIBRARY_DIR=/data/race-photos LLM_MODEL=my-model pnpm dev
 
 Only JPEG and PNG files are Photos. Photos without a valid Sidecar (`<name>.json`), or whose name is not made of letters, digits, `_`, `.` and `-` (starting with a letter, digit or `_`), are counted separately and otherwise ignored.
 Sidecars are re-read on every Search, so new ones are picked up without a restart.
+The search index lives in `<library>/.search-index/` and is rebuilt when a Sidecar changes (safe to delete). Run `ollama pull nomic-embed-text` once; without it the app falls back to lexical search.
 Thumbnails are generated with `sharp` on first request and cached in `app/.cache/` (safe to delete).
 
 ## LLM server (llama.cpp)

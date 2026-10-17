@@ -3,21 +3,25 @@ import { createUIMessageStreamResponse } from "ai";
 import { config } from "#/config";
 import { type PhotoUIMessage, streamChat } from "#/server/chat";
 import { photoDetails } from "#/server/details";
+import { nomicEmbedder } from "#/server/embedder";
 import { exportResponse } from "#/server/export";
 import { type PhotoSize, renderPhoto } from "#/server/images";
 import { loadLibrary } from "#/server/library";
 import { model } from "#/server/model";
+import { hybridSearch } from "#/server/search-index";
 
 const CACHE_DIR = resolve(".cache");
 
 const readLibrary = () => loadLibrary(config.libraryDir);
+
+const findCandidates = hybridSearch(nomicEmbedder(config.ollamaUrl));
 
 const photoNotFound = () => new Response("Photo not found", { status: 404 });
 
 export async function handleChat(request: Request): Promise<Response> {
   const { messages }: { messages: PhotoUIMessage[] } = await request.json();
   return createUIMessageStreamResponse({
-    stream: await streamChat({ model, messages, readLibrary }),
+    stream: await streamChat({ model, messages, readLibrary, findCandidates }),
   });
 }
 

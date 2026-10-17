@@ -11,7 +11,7 @@ import {
 import { z } from "zod";
 import type { Match, PhotoCard } from "#/lib/photo-card";
 import type { Library } from "#/server/library";
-import { searchPhotos } from "#/server/search";
+import { type FindCandidates, lexicalSearch } from "#/server/search";
 
 export const SYSTEM_PROMPT = `You help the user find race car Photos in their Library. That is your only job.
 
@@ -56,7 +56,8 @@ const sidecarBlock = (id: string, sidecarText: string) =>
 /** The chat tools of one Search request; the Library is re-read on every searchPhotos call. */
 export function createSearchTools(
   readLibrary: ReadLibrary,
-  turn: SearchTurn = { matchesShown: false, searched: false }
+  turn: SearchTurn = { matchesShown: false, searched: false },
+  findCandidates: FindCandidates = lexicalSearch
 ) {
   const candidates = new Map<string, PhotoCard>();
   // Sidecars go to the model only, so they stay on the server instead of in the tool output the client receives.
@@ -64,7 +65,7 @@ export function createSearchTools(
   return {
     searchPhotos: tool({
       description:
-        "Broad lexical search over the Library's Sidecars. Returns up to 20 Candidates, best first.",
+        "Broad search over the Library's Sidecars. Returns up to 20 Candidates, best first.",
       inputSchema: z.object({
         request: z
           .string()
@@ -73,7 +74,7 @@ export function createSearchTools(
           ),
       }),
       execute: async ({ request }): Promise<string[]> => {
-        const found = searchPhotos((await readLibrary()).photos, request);
+        const found = await findCandidates(await readLibrary(), request);
         turn.searched = true;
         for (const { score: _score, sidecarText, ...card } of found) {
           candidates.set(card.id, card);
@@ -155,6 +156,7 @@ export type SearchTools = ReturnType<typeof createSearchTools>;
 export type PhotoUIMessage = UIMessage<never, never, InferUITools<SearchTools>>;
 
 export interface StreamChatOptions {
+  findCandidates?: FindCandidates;
   messages: PhotoUIMessage[];
   model: LanguageModel;
   readLibrary: ReadLibrary;
@@ -204,9 +206,10 @@ export async function streamChat({
   model,
   messages,
   readLibrary,
+  findCandidates,
 }: StreamChatOptions) {
   const turn: SearchTurn = { matchesShown: false, searched: false };
-  const tools = createSearchTools(readLibrary, turn);
+  const tools = createSearchTools(readLibrary, turn, findCandidates);
   const result = streamText({
     model,
     instructions: SYSTEM_PROMPT,
