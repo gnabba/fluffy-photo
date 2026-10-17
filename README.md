@@ -10,6 +10,10 @@ Built for [Hacktoberfest Hack Day Milano × Coding Bunker](https://www.mlh.com/e
 
 Status: **working prototype**. Extraction works end to end on the sample photos, and a local chat web app finds photos from a natural-language request and exports them as a zip.
 
+<p align="center">
+  <img src="docs/app-screenshot.png" alt="Fluffy Photo chat app: searching for pink and white cars and car #24" width="800">
+</p>
+
 ## The problem
 
 During a race, photographers and photojournalists shoot thousands of frames that land on the laptop as `IMG_2843.jpg`. When the editor calls asking for shots of car #98 for the article, or a team wants photos of its car for social media *now*, finding them means scrolling through the card for precious minutes — and news value decays by the minute.
