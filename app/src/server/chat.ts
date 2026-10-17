@@ -37,9 +37,14 @@ const escapeMarkup = (text: string) =>
 
 export type ReadLibrary = () => Promise<Library>;
 
+const sidecarBlock = (id: string, sidecarText: string) =>
+  `<sidecar id="${id}" untrusted="true">\n${escapeMarkup(sidecarText)}\n</sidecar>`;
+
 /** The chat tools of one Search request; the Library is re-read on every searchPhotos call. */
 export function createSearchTools(readLibrary: ReadLibrary) {
   const candidates = new Map<string, PhotoCard>();
+  // Sidecars go to the model only, so they stay on the server instead of in the tool output the client receives.
+  const sidecarTexts = new Map<string, string>();
   return {
     searchPhotos: tool({
       description:
@@ -51,25 +56,32 @@ export function createSearchTools(readLibrary: ReadLibrary) {
             "Keywords: race numbers, makes, teams, sponsors, livery colours, scene"
           ),
       }),
-      execute: async ({ request }) => {
+      execute: async ({ request }): Promise<string[]> => {
         const found = searchPhotos((await readLibrary()).photos, request);
-        for (const { score: _score, sidecarText: _text, ...card } of found) {
+        for (const { score: _score, sidecarText, ...card } of found) {
           candidates.set(card.id, card);
+          sidecarTexts.set(card.id, sidecarText);
         }
-        return found;
+        return found.map((candidate) => candidate.id);
       },
-      toModelOutput: ({ output }) => ({
-        type: "text",
-        value:
-          output.length === 0
-            ? "No Candidates."
-            : output
-                .map(
-                  (candidate) =>
-                    `<sidecar id="${candidate.id}" untrusted="true">\n${escapeMarkup(candidate.sidecarText)}\n</sidecar>`
-                )
-                .join("\n"),
-      }),
+      toModelOutput: ({ output }) => {
+        if (output.length === 0) {
+          return { type: "text", value: "No Candidates." };
+        }
+        const stale = output.filter((id) => !sidecarTexts.has(id));
+        const blocks = output.flatMap((id) => {
+          const sidecarText = sidecarTexts.get(id);
+          return sidecarText === undefined
+            ? []
+            : [sidecarBlock(id, sidecarText)];
+        });
+        if (stale.length > 0) {
+          blocks.push(
+            `Candidates of an earlier Search, search again to show them: ${stale.join(", ")}.`
+          );
+        }
+        return { type: "text", value: blocks.join("\n") };
+      },
     }),
     showPhotos: tool({
       description:

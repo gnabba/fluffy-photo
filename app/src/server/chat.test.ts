@@ -148,14 +148,22 @@ describe("streamChat", () => {
       "step-start",
       "text",
     ]);
-    expect(searchPart(message).output.map((c) => c.fileName)).toEqual([
-      "bmw-rowe.jpg",
-    ]);
-    expect(searchPart(message).output[0]).toMatchObject({
-      id: "bmw-rowe",
-      path: resolve(samplesDir, "bmw-rowe.jpg"),
-      raceNumbers: ["98"],
-    });
+    expect(searchPart(message).output).toEqual(["bmw-rowe"]);
+  });
+
+  it("sends the client only the Candidate ids, never their paths or Sidecars", async () => {
+    const message = await lastMessage(
+      streamChat({
+        model: searchingModel("car 98"),
+        messages: [userMessage("car 98")],
+        readLibrary: () => loadLibrary(samplesDir),
+      })
+    );
+
+    const streamed = JSON.stringify(message);
+    expect(streamed).not.toContain(samplesDir);
+    expect(streamed).not.toContain("car_numbers");
+    expect(streamed).not.toContain("score");
   });
 
   it("gives the model each Candidate's Sidecar as delimited untrusted data", async () => {
@@ -177,6 +185,35 @@ describe("streamChat", () => {
     const instructions = JSON.stringify(model.doStreamCalls[0]?.prompt[0]);
     expect(instructions).toContain("system");
     expect(instructions).not.toContain("car_numbers");
+  });
+
+  it("asks the model to search again for Candidates of an earlier request", async () => {
+    const model = searchingModel("car 98");
+    const earlier: PhotoUIMessage = {
+      id: "a0",
+      role: "assistant",
+      parts: [
+        {
+          type: "tool-searchPhotos",
+          toolCallId: "call-0",
+          state: "output-available",
+          input: { request: "98" },
+          output: ["bmw-rowe"],
+        },
+      ],
+    };
+
+    await lastMessage(
+      streamChat({
+        model,
+        messages: [userMessage("car 98"), earlier, userMessage("again")],
+        readLibrary: () => loadLibrary(samplesDir),
+      })
+    );
+
+    expect(JSON.stringify(model.doStreamCalls[0]?.prompt)).toContain(
+      "Candidates of an earlier Search, search again to show them: bmw-rowe."
+    );
   });
 
   it("re-reads the Library on every Search", async () => {
@@ -202,7 +239,7 @@ describe("streamChat", () => {
     );
     await writeFile(join(dir, "ferrari-lmcorsa.txt"), "keywords: petronas");
 
-    expect(searchPart(await chat("petronas")).output.map((c) => c.id)).toEqual([
+    expect(searchPart(await chat("petronas")).output).toEqual([
       "ferrari-lmcorsa",
     ]);
   });
@@ -218,10 +255,7 @@ describe("streamChat", () => {
       })
     );
 
-    expect(searchPart(message).output.map((c) => c.id)).toEqual([
-      "bmw-rowe",
-      "bmw-wrt",
-    ]);
+    expect(searchPart(message).output).toEqual(["bmw-rowe", "bmw-wrt"]);
     const shown = showPart(message);
     expect(shown.state).toBe("output-available");
     expect(shown.state === "output-available" && shown.output).toEqual([
@@ -351,7 +385,7 @@ describe("streamChat", () => {
         })
       );
 
-      expect(searchPart(message).output.map((c) => c.id)).toEqual(["bmw-rowe"]);
+      expect(searchPart(message).output).toEqual(["bmw-rowe"]);
       const shown = showPart(message);
       expect(shown.state === "output-available" && shown.output).toEqual([]);
     });

@@ -25,17 +25,7 @@ const searched: Part = {
   toolCallId: "call-1",
   state: "output-available",
   input: { request: "98" },
-  output: [
-    { ...rowe, score: 10, sidecarText: "car_numbers: 98" },
-    {
-      id: "bmw-wrt",
-      fileName: "bmw-wrt.jpg",
-      path: "/library/bmw-wrt.jpg",
-      raceNumbers: ["31"],
-      score: 1,
-      sidecarText: "car_numbers: 31",
-    },
-  ],
+  output: ["bmw-rowe", "bmw-wrt"],
 };
 
 const render = (message: PhotoUIMessage) =>
