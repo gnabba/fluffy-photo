@@ -1,0 +1,15 @@
+file: IMG_2858.jpg
+captured_at: 2025-08-23T06:17:56.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 280 | shutter_s: 1/200 | iso: 400
+car_numbers: 85
+cars: Porsche 911
+car_types: GT3
+sponsors: 85
+livery_colors: pink; white; black
+visible_text: 85
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-85; gt3; 85; pink; white; black; on_track
+
+description: A pink and white Porsche 911 GT3 race car, numbered 85, is driving on a race track. The background shows a yellow and red safety barrier. The photo is taken with motion blur on the background.
+
+car_1: #85 (clear) | Porsche 911 | pink, white, black | The car features a pink and white livery with black accents. | sponsors: 85 | number on: rear

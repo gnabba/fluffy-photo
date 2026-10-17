@@ -1,0 +1,54 @@
+{
+  "file": "IMG_2858.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:17:56.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 280,
+    "shutter_s": 0.005,
+    "aperture": 11,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "85",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "rear"
+      ],
+      "team_name": null,
+      "class_label": null,
+      "manufacturer_model": "Porsche 911",
+      "car_type": "GT3",
+      "livery_colors": [
+        "pink",
+        "white",
+        "black"
+      ],
+      "livery_description": "The car features a pink and white livery with black accents.",
+      "sponsors": [
+        {
+          "name": "85",
+          "evidence": "text_readable",
+          "location": "rear"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "85"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A pink and white Porsche 911 GT3 race car, numbered 85, is driving on a race track. The background shows a yellow and red safety barrier. The photo is taken with motion blur on the background."
+}

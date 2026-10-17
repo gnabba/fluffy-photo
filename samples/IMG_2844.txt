@@ -1,0 +1,15 @@
+file: IMG_2844.jpg
+captured_at: 2025-08-23T06:16:18.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 280 | shutter_s: 1/160 | iso: 400
+car_numbers: 51
+cars: Ferrari 458 Italia
+car_types: GT3
+sponsors: Michelin
+livery_colors: black; white; red
+visible_text: 51
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-51; gt3; michelin; black; white; red; on_track
+
+description: A black and white Ferrari 458 Italia race car, numbered 51, is speeding on a race track. The car is captured with motion blur in the background. The setting is an outdoor circuit with guardrails visible.
+
+car_1: #51 (clear) | Ferrari 458 Italia | black, white, red | The car has a predominantly black and white livery with red accents. | sponsors: Michelin | number on: side_panel

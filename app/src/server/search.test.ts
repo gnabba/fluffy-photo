@@ -52,7 +52,9 @@ describe("searchPhotos", () => {
 
   it("caps the Candidates at the limit, sorted by score", () => {
     const many = Array.from({ length: 30 }, (_, index) => ({
-      ...(library.photos[0] as Library["photos"][number]),
+      ...(library.photos.find(
+        (photo) => photo.id === "bmw-rowe"
+      ) as Library["photos"][number]),
       id: `photo-${index}`,
     }));
 

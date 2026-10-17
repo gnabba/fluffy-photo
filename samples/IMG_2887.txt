@@ -1,0 +1,15 @@
+file: IMG_2887.jpg
+captured_at: 2025-08-23T06:39:58.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 98 | shutter_s: 1/125 | iso: 400
+car_numbers: 57
+cars: Ferrari 458 Italia
+car_types: GT3
+sponsors: CAR GUY; GOOD YEAR; guess
+livery_colors: yellow; black; white
+visible_text: 57 | CAR GUY | GOOD YEAR | guess
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-57; gt3; car-guy; good-year; guess; yellow; black; white; on_track
+
+description: A yellow and black Ferrari 458 Italia, marked with the number 57, is driving on a race track. The car features sponsors such as CAR GUY and GOOD YEAR. The background shows several white mobile homes behind a safety barrier.
+
+car_1: #57 (clear) | Ferrari 458 Italia | yellow, black, white | The car features a bright yellow and black livery with white accents. | sponsors: CAR GUY, GOOD YEAR, guess | number on: side_panel

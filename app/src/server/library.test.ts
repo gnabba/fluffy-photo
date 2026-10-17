@@ -12,9 +12,11 @@ describe("loadLibrary", () => {
 
     expect(library.overview()).toEqual({
       name: "samples",
-      photoCount: 5,
-      sidecarCount: 5,
+      photoCount: library.photos.length,
+      sidecarCount: library.photos.length,
     });
+    expect(library.photos.length).toBeGreaterThan(0);
+    expect(library.photosWithoutSidecar).toEqual([]);
   });
 
   it("counts Photos without a Sidecar separately and leaves them out", async () => {

@@ -1,0 +1,15 @@
+file: IMG_2850.jpg
+captured_at: 2025-08-23T06:16:53.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 280 | shutter_s: 1/200 | iso: 400
+car_numbers: 24
+cars: Porsche 911
+car_types: prototype
+sponsors: Panerai; Eurosport
+livery_colors: green; yellow; black
+visible_text: 24 | Panerai | Eurosport
+scene: on_track; tracking; motion_blur: background_only; daylight; none
+keywords: car-24; prototype; panerai; eurosport; green; yellow; black; on_track
+
+description: A green and yellow Porsche 911 prototype, numbered 24, is driving on a race track. The car features the sponsor names Panerai and Eurosport. The background shows a red and yellow barrier against a backdrop of trees.
+
+car_1: #24 (clear) | Porsche 911 | green, yellow, black | The car features a green and yellow livery with black accents. | sponsors: Panerai, Eurosport | number on: nose

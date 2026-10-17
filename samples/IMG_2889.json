@@ -1,0 +1,61 @@
+{
+  "file": "IMG_2889.jpg",
+  "model": "gemma4:e4b",
+  "exif": {
+    "captured_at": "2025-08-23T06:40:06.000Z",
+    "camera": "Canon EOS 6D Mark II",
+    "lens": "EF70-200mm f/4L IS II USM +1.4x III",
+    "focal_mm": 98,
+    "shutter_s": 0.008,
+    "aperture": 10,
+    "iso": 400,
+    "gps": null
+  },
+  "cars": [
+    {
+      "car_number": "68",
+      "car_number_legible": "clear",
+      "car_number_location": [
+        "side_panel"
+      ],
+      "team_name": "MONO",
+      "class_label": "P3",
+      "manufacturer_model": "MONO",
+      "car_type": "prototype",
+      "livery_colors": [
+        "pink",
+        "black",
+        "yellow"
+      ],
+      "livery_description": "The car features a predominantly pink and black livery with yellow accents.",
+      "sponsors": [
+        {
+          "name": "MONO",
+          "evidence": "text_readable",
+          "location": "rear"
+        },
+        {
+          "name": "P3",
+          "evidence": "text_readable",
+          "location": "side_panel"
+        }
+      ],
+      "car_number_candidate": null,
+      "car_number_check": "clear"
+    }
+  ],
+  "series_or_event": null,
+  "visible_text": [
+    "MONO",
+    "P3",
+    "68"
+  ],
+  "scene": {
+    "setting": "on_track",
+    "shot_type": "tracking",
+    "motion_blur": "background_only",
+    "weather_light": "daylight",
+    "people": "none"
+  },
+  "description": "A pink and black MONO P3 race car, numbered 68, is speeding on a race track. The car features the MONO branding and is captured with motion blur in the background. The setting includes safety barriers and some buildings in the distance."
+}

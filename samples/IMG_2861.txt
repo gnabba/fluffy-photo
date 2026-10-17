@@ -1,0 +1,16 @@
+file: IMG_2861.jpg
+captured_at: 2025-08-23T06:18:08.000Z
+camera: Canon EOS 6D Mark II | lens: EF70-200mm f/4L IS II USM +1.4x III | focal_mm: 280 | shutter_s: 1/200 | iso: 400
+car_numbers: 83
+cars: Porsche 919 Hybrid
+car_types: prototype
+sponsors: RICHARD MILLE
+livery_colors: black; white; red
+visible_text: RICHARD MILLE
+scene: on_track; tracking; motion_blur: background_only; daylight; one person is visible in the far background
+keywords: car-83; prototype; richard-mille; black; white; red; on_track
+
+description: A black and white prototype race car, number 83, is driving on a track. The car features the sponsor name RICHARD MILLE on the rear wing. Another dark race car is visible slightly behind it. The background shows safety barriers in yellow and red.
+
+car_1: #83 (clear) | Porsche 919 Hybrid | black, white, red | The car features a complex livery dominated by black and white with red accents. | sponsors: RICHARD MILLE | number on: rear
+car_2: #? (not_read) | black, white | A dark race car is visible slightly behind the lead car.
