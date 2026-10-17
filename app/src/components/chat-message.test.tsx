@@ -62,6 +62,24 @@ describe("ChatMessage", () => {
     expect(html).toContain("#98, ROWE livery, &lt;b&gt;on&lt;/b&gt; track");
   });
 
+  it("gives the Match grid its own Selection and Export", () => {
+    const html = render(
+      assistant([
+        searched,
+        {
+          type: "tool-showPhotos",
+          toolCallId: "call-2",
+          state: "output-available",
+          input: { ids: ["bmw-rowe"], reasons: ["#98"] },
+          output: [{ ...rowe, reason: "#98" }],
+        },
+      ])
+    );
+
+    expect(html).toContain('aria-label="Select bmw-rowe.jpg"');
+    expect(html).toContain("Download zip (0)");
+  });
+
   it("shows no grid when the review keeps nothing", () => {
     const html = render(
       assistant([

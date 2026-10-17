@@ -10,7 +10,11 @@ import {
   ReasoningTrigger,
 } from "#/components/ai-elements/reasoning";
 import { Shimmer } from "#/components/ai-elements/shimmer";
-import { PhotoCardView, PhotoGrid } from "#/components/photo-grid";
+import { PhotoCardView } from "#/components/photo-grid";
+import {
+  type SelectableCardSlots,
+  SelectablePhotoGrid,
+} from "#/components/selectable-photo-grid";
 import type { PhotoCard } from "#/lib/photo-card";
 import type { Match, PhotoUIMessage } from "#/server/chat";
 
@@ -33,10 +37,10 @@ function MatchGrid({ matches }: { matches: Match[] }) {
     [matches]
   );
   const renderMatch = useCallback(
-    (photo: PhotoCard, open: () => void) => {
+    (photo: PhotoCard, { checkbox, open }: SelectableCardSlots) => {
       const reason = reasons.get(photo.id);
       return (
-        <PhotoCardView onOpen={open} photo={photo}>
+        <PhotoCardView action={checkbox} onOpen={open} photo={photo}>
           <p className="line-clamp-3 text-foreground" title={reason}>
             {reason}
           </p>
@@ -45,7 +49,7 @@ function MatchGrid({ matches }: { matches: Match[] }) {
     },
     [reasons]
   );
-  return <PhotoGrid photos={matches} renderCard={renderMatch} />;
+  return <SelectablePhotoGrid photos={matches} renderCard={renderMatch} />;
 }
 
 function ShowPhotosPart({
