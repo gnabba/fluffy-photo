@@ -31,14 +31,18 @@ export const REASON_MAX_LENGTH = 120;
 const truncate = (text: string, max: number) =>
   text.length <= max ? text : `${text.slice(0, max - 1).trimEnd()}…`;
 
-// Sidecar text is read off the Photos, so it must not be able to close or forge its delimiters.
+// Sidecar text and ids come from the Library, so they must not be able to close or forge their delimiters.
 const escapeMarkup = (text: string) =>
-  text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 
 export type ReadLibrary = () => Promise<Library>;
 
 const sidecarBlock = (id: string, sidecarText: string) =>
-  `<sidecar id="${id}" untrusted="true">\n${escapeMarkup(sidecarText)}\n</sidecar>`;
+  `<sidecar id="${escapeMarkup(id)}" untrusted="true">\n${escapeMarkup(sidecarText)}\n</sidecar>`;
 
 /** The chat tools of one Search request; the Library is re-read on every searchPhotos call. */
 export function createSearchTools(readLibrary: ReadLibrary) {
