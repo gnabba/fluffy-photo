@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import {
   Message,
   MessageContent,
@@ -9,8 +10,9 @@ import {
   ReasoningTrigger,
 } from "#/components/ai-elements/reasoning";
 import { Shimmer } from "#/components/ai-elements/shimmer";
-import { SelectablePhotoGrid } from "#/components/selectable-photo-grid";
-import type { PhotoUIMessage } from "#/server/chat";
+import { PhotoCardView, PhotoGrid } from "#/components/photo-grid";
+import type { PhotoCard } from "#/lib/photo-card";
+import type { Match, PhotoUIMessage } from "#/server/chat";
 
 type Part = PhotoUIMessage["parts"][number];
 
@@ -19,17 +21,52 @@ function SearchPhotosPart({
 }: {
   part: Extract<Part, { type: "tool-searchPhotos" }>;
 }) {
+  return part.state === "input-streaming" ||
+    part.state === "input-available" ? (
+    <Shimmer>Searching the Library…</Shimmer>
+  ) : null;
+}
+
+function MatchGrid({ matches }: { matches: Match[] }) {
+  const reasons = useMemo(
+    () => new Map(matches.map((match) => [match.id, match.reason])),
+    [matches]
+  );
+  const renderMatch = useCallback(
+    (photo: PhotoCard, open: () => void) => {
+      const reason = reasons.get(photo.id);
+      return (
+        <PhotoCardView onOpen={open} photo={photo}>
+          <p className="line-clamp-3 text-foreground" title={reason}>
+            {reason}
+          </p>
+        </PhotoCardView>
+      );
+    },
+    [reasons]
+  );
+  return <PhotoGrid photos={matches} renderCard={renderMatch} />;
+}
+
+function ShowPhotosPart({
+  part,
+}: {
+  part: Extract<Part, { type: "tool-showPhotos" }>;
+}) {
   switch (part.state) {
     case "output-available":
       return part.output.length > 0 ? (
-        <SelectablePhotoGrid photos={part.output} />
+        <MatchGrid matches={part.output} />
       ) : null;
     case "output-error":
       return null;
     default:
-      return <Shimmer>Searching the Library…</Shimmer>;
+      return <Shimmer>Reviewing the Candidates…</Shimmer>;
   }
 }
+
+// Photos come only from validated showPhotos results, so the model's text may not embed images or raw HTML.
+const TEXT_DISALLOWED_ELEMENTS = ["img"];
 
 export interface ChatMessageProps {
   isStreaming: boolean;
@@ -48,7 +85,13 @@ export function ChatMessage({ isStreaming, message }: ChatMessageProps) {
               return message.role === "user" ? (
                 <p key={key}>{part.text}</p>
               ) : (
-                <MessageResponse key={key}>{part.text}</MessageResponse>
+                <MessageResponse
+                  disallowedElements={TEXT_DISALLOWED_ELEMENTS}
+                  key={key}
+                  skipHtml
+                >
+                  {part.text}
+                </MessageResponse>
               );
             case "reasoning":
               return (
@@ -63,6 +106,8 @@ export function ChatMessage({ isStreaming, message }: ChatMessageProps) {
               );
             case "tool-searchPhotos":
               return <SearchPhotosPart key={part.toolCallId} part={part} />;
+            case "tool-showPhotos":
+              return <ShowPhotosPart key={part.toolCallId} part={part} />;
             default:
               return null;
           }
