@@ -4,7 +4,7 @@ Built for [Hacktoberfest Hack Day Milano × Coding Bunker](https://www.mlh.com/e
 
 **Find the shot while the race is still on.** Fluffy Photo reads each photo as it comes off the camera, extracts race numbers, teams, sponsors, liveries, classes and scene context with an open-weight vision model, and writes searchable `.txt` + `.json` sidecars — so "all shots of car #98 in the pits" is a query, not a half-hour scroll.
 
-Status: **working prototype**. Extraction works end to end on a handful of test photos; search/indexing is not built yet.
+Status: **working prototype**. Extraction works end to end on a handful of test photos; search returns Candidates from a local LanceDB index, but its quality is not measured yet.
 
 ## The problem
 
@@ -49,7 +49,7 @@ For each photo the script:
 | [Ollama](https://ollama.com) | Local inference, enforces the JSON schema via the `format` parameter | MIT |
 | [exifr](https://github.com/MikeKovarik/exifr) | EXIF reading | MIT |
 | [Node.js](https://nodejs.org) | Tooling | MIT |
-| LanceDB + `nomic-embed-text` | *Planned*: hybrid search (BM25 + vectors) over the sidecars | Apache-2.0 / MIT |
+| LanceDB + `nomic-embed-text` | Hybrid search (BM25 + vectors) over the sidecars, exact race number matches first | Apache-2.0 / MIT |
 
 Decisions and alternatives considered (Apple Vision, MLX, dedicated OCR/logo detectors) are documented with sources in [`docs/research/race-car-photo-metadata-extraction.md`](docs/research/race-car-photo-metadata-extraction.md).
 
@@ -62,6 +62,7 @@ Decisions and alternatives considered (Apple Vision, MLX, dedicated OCR/logo det
 | `extractor/extract.mjs` | Reads EXIF, asks Gemma for structured JSON, checks race numbers, writes `.txt` + `.json` sidecars |
 | `extractor/prompt.md` | System prompt sent to the model |
 | `extractor/schema.json` | JSON schema enforced through Ollama's `format` parameter |
+| `search/` | Indexing and search over the `.txt` sidecars ([usage](search/README.md)) |
 
 ## Known limitations
 
@@ -76,7 +77,7 @@ Decisions and alternatives considered (Apple Vision, MLX, dedicated OCR/logo det
 Hack Day (2026-10-17, Milan):
 
 1. Label 50–100 real photos by hand and measure accuracy per field.
-2. Build the LanceDB index and a search command over the `.txt` sidecars.
+2. Write 10–20 test Searches with the Photos each should return, and measure how many land in the top Candidates.
 3. Iterate on the prompt/schema based on the measurements.
 
 After the event:
